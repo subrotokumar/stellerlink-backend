@@ -1,0 +1,168 @@
+{
+    "id": 2,
+    "name": "March 7th",
+    "faction": "Astal Express",
+    "rarity": 4,
+    "path": "Preservation",
+    "combatType": "Ice",
+    "chinese": "诺亚",
+    "English": "Skyler Davenport",
+    "Korean": "정혜원",
+    "Japanese": "小倉唯",
+    "story": "A girl who once slumbered in eternal ice and knows nothing about her past.\nTo find out the truth about her origins, she decided to travel with the Astral Express.\nAs of right now, she has prepared about 67 different versions of her life story for herself.",
+    "stats": [
+        {
+            "level": "level 1",
+            "atk": 92.4,
+            "def": 66,
+            "hp": 148,
+            "spd": 100,
+            "critRate": "5%",
+            "critDamage": "50%",
+            "taunt": 100,
+            "energy": 120,
+            "ascension materials": ""
+        },
+        {
+            "level": "level 20",
+            "atk": 180.18,
+            "def": 128.7,
+            "hp": 288,
+            "spd": 100,
+            "critRate": "5%",
+            "critDamage": "50%",
+            "taunt": 100,
+            "energy": 120,
+            "ascension materials": "Credit4000Thief's Instinct5"
+        },
+        {
+            "level": "level 20+",
+            "atk": 217.14,
+            "def": 155.1,
+            "hp": 347,
+            "spd": 100,
+            "critRate": "5%",
+            "critDamage": "50%",
+            "taunt": 100,
+            "energy": 120,
+            "ascension materials": ""
+        },
+        {
+            "level": "level 40",
+            "atk": 346.5,
+            "def": 247.5,
+            "hp": 554,
+            "spd": 100,
+            "critRate": "5%",
+            "critDamage": "50%",
+            "taunt": 100,
+            "energy": 120,
+            "ascension materials": "Credit16000Usurper's Scheme6Shape Shifter's Lightning Staff3"
+        },
+        {
+            "level": "level 40+",
+            "atk": 383.46,
+            "def": 273.9,
+            "hp": 614,
+            "spd": 100,
+            "critRate": "5%",
+            "critDamage": "50%",
+            "taunt": 100,
+            "energy": 120,
+            "ascension materials": ""
+        },
+        {
+            "level": "level 50",
+            "atk": 429.66,
+            "def": 306.9,
+            "hp": 687,
+            "spd": 100,
+            "critRate": "5%",
+            "critDamage": "50%",
+            "taunt": 100,
+            "energy": 120,
+            "ascension materials": "Credit40000Usurper's Scheme9Shape Shifter's Lightning Staff7"
+        },
+        {
+            "level": "level 50+",
+            "atk": 466.62,
+            "def": 333.3,
+            "hp": 747,
+            "spd": 100,
+            "critRate": "5%",
+            "crit dmg": "50%",
+            "taunt": 100,
+            "energy": 120,
+            "ascension materials": ""
+        },
+        {
+            "level": "level 60",
+            "atk": 512.82,
+            "def": 366.3,
+            "hp": 821,
+            "spd": 100,
+            "critRate": "5%",
+            "crit dmg": "50%",
+            "taunt": 100,
+            "energy": 120,
+            "ascension materials": "Credit80000Conqueror's Will6Shape Shifter's Lightning Staff20"
+        },
+        {
+            "level": "level 60+",
+            "atk": 549.78,
+            "def": 392.7,
+            "hp": 880,
+            "spd": 100,
+            "critRate": "5%",
+            "crit dmg": "50%",
+            "taunt": 100,
+            "energy": 120,
+            "ascension materials": ""
+        },
+        {
+            "level": "level 70",
+            "atk": 595.98,
+            "def": 425.7,
+            "hp": 954,
+            "spd": 100,
+            "critRate": "5%",
+            "crit dmg": "50%",
+            "taunt": 100,
+            "energy": 120,
+            "ascension materials": "Credit160KConqueror's Will9Shape Shifter's Lightning Staff35"
+        },
+        {
+            "level": "level 70+",
+            "atk": 632.94,
+            "def": 452.1,
+            "hp": 1013,
+            "spd": 100,
+            "critRate": "5%",
+            "critDamage": "50%",
+            "taunt": 100,
+            "energy": 120,
+            "ascension materials": ""
+        },
+        {
+            "level": "level 80",
+            "atk": 679.14,
+            "def": 485.1,
+            "hp": 1087,
+            "spd": 100,
+            "crit rate": "5%",
+            "critDamage": "50%",
+            "taunt": 100,
+            "energy": 120,
+            "ascension materials": ""
+        }
+    ],
+    "eidolons": [
+        {
+            "index": 0,
+            "image": "sfd",
+            "title": "title",
+            "description": "description",
+            "logo": "logo"
+        }
+    ]
+}
