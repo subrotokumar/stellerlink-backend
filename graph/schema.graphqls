@@ -2,77 +2,21 @@
 #
 # https://gqlgen.com/getting-started/
 
+"""
+Character Data
+"""
 type Character {
-  id: Int!
+  _id: Int!
   name: String!
-  faction: String!
-  rarity: Int!
-  path: Path!
-  combatType: CombatType!
-  Story: String!
-  stats: [Stats!]!
-  eidolons: [Eidolons]!
-}
-
-type Stats {
-  level: String!
-  atk: Float!
-  def: Float!
-  hp: Int!
-  spd: Int!
-  critRate: String!
-  critDamage: String!
-  taunt: Int!
-  energy: Int!
-  ascensionMaterials: [AscensionMaterials!]!
-}
-
-type AscensionMaterials {
-  quantity: Int!
-  material: Material!
-}
-
-type Material {
-  name: String!
-  rarity: Int!
-  type: [String!]!
-  description: String!
-  story: String!
-}
-
-type Eidolons {
-  index: Int!
   image: String!
-  title: String!
-  description: String!
-  logo: String!
+  splashArt: String!
 }
 
 type Query {
-  characters(id: Int): [Character!]!
+  Character(id: Int!): Character!
+  Characters: [Character!]!
 }
 
 type Mutation {
-  status: String!
-}
-
-enum Path {
-  Destruction
-  The
-  Hunt
-  Erudition
-  Harmony
-  Nihility
-  Preservation
-  Abundance
-}
-
-enum CombatType {
-  Physical
-  Fire
-  Ice
-  Lightning
-  Wind
-  Quantum
-  Imaginary
+  hello: String!
 }

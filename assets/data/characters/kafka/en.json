@@ -1,6 +1,7 @@
 {
     "id": 1,
     "name": "Kafka",
+    "image": "",
     "splashArt": "assets/images/characters/kafka/Kafka_Star_rail_character_full.png",
     "faction": "Stellaron Hunters",
     "rarity": 5,

@@ -1,15 +1,13 @@
 package main
 
 import (
-
-	// "gorm.io/driver/sqlite"
-
 	"net/http"
 	"os"
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/gin-gonic/gin"
+	_ "github.com/joho/godotenv/autoload"
 	"github.com/subrotokumar/stellerlink-backend/graph"
 )
 
@@ -31,6 +29,16 @@ func playgroundHandler() gin.HandlerFunc {
 	}
 }
 
+func main() {
+	app := gin.Default()
+
+	app.POST("/graphql", graphqlHandler())
+	app.GET("/", playgroundHandler())
+	app.Use(middlewareAuth())
+	app.StaticFS("/images", http.Dir("assets/images"))
+	app.Run(":8080")
+}
+
 func middlewareAuth() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		customHeader := c.Request.Header.Get("Auth")
@@ -42,13 +50,4 @@ func middlewareAuth() gin.HandlerFunc {
 		}
 		c.Next()
 	}
-}
-
-func main() {
-	app := gin.Default()
-	app.Use(middlewareAuth())
-	app.StaticFS("/assets", http.Dir("assets/images"))
-	app.POST("/graphql", graphqlHandler())
-	app.GET("/", playgroundHandler())
-	app.Run(":8080")
 }

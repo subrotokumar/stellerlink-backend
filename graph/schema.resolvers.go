@@ -6,51 +6,25 @@ package graph
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
-	"os"
-	"path/filepath"
 
+	"github.com/subrotokumar/stellerlink-backend/database"
 	"github.com/subrotokumar/stellerlink-backend/model"
 )
 
-// Status is the resolver for the status field.
-func (r *mutationResolver) Status(ctx context.Context) (string, error) {
-	return "Server is running", nil
+// Hello is the resolver for the hello field.
+func (r *mutationResolver) Hello(ctx context.Context) (string, error) {
+	panic(fmt.Errorf("not implemented: Hello - hello"))
 }
 
-// Characters is the resolver for the characters field.
-func (r *queryResolver) Characters(ctx context.Context, id *int) ([]*model.Character, error) {
-	files, err := os.ReadDir("assets/data/characters")
-	if err != nil {
-		return nil, err
-	}
+// Character is the resolver for the Character field.
+func (r *queryResolver) Character(ctx context.Context, id int) (*model.Character, error) {
+	return db.GetCharacter(id), nil
+}
 
-	var jsonResponses []*model.Character
-
-	for _, file := range files {
-		if file.IsDir() {
-			filePath := filepath.Join("assets/data/characters", file.Name(), "/en.json")
-			jsonContent, err := os.ReadFile(filePath)
-			if err != nil {
-				fmt.Printf("Failed to read %s: %v\n", filePath, err)
-				continue
-			}
-
-			var jsonData model.Character
-			if err := json.Unmarshal(jsonContent, &jsonData); err != nil {
-				fmt.Printf("Failed to parse %s: %v\n", filePath, err)
-				continue
-			}
-			if id == nil {
-				jsonResponses = append(jsonResponses, &jsonData)
-			} else if *id == jsonData.ID {
-				jsonResponses = append(jsonResponses, &jsonData)
-				break
-			}
-		}
-	}
-	return jsonResponses, nil
+// Characters is the resolver for the Characters field.
+func (r *queryResolver) Characters(ctx context.Context) ([]*model.Character, error) {
+	return db.GetCharacters(), nil
 }
 
 // Mutation returns MutationResolver implementation.
@@ -61,3 +35,11 @@ func (r *Resolver) Query() QueryResolver { return &queryResolver{r} }
 
 type mutationResolver struct{ *Resolver }
 type queryResolver struct{ *Resolver }
+
+// !!! WARNING !!!
+// The code below was going to be deleted when updating resolvers. It has been copied here so you have
+// one last chance to move it out of harms way if you want. There are two reasons this happens:
+//   - When renaming or deleting a resolver the old code will be put in here. You can safely delete
+//     it when you're done.
+//   - You have helper methods in this file. Move them out to keep these resolver files clean.
+var db = database.Connect()
