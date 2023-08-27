@@ -8,6 +8,7 @@ import (
 
 	"github.com/subrotokumar/stellerlink-backend/model"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -15,6 +16,8 @@ import (
 type DB struct {
 	client *mongo.Client
 }
+
+var collectionName string = "stellerlink"
 
 func Connect() *DB {
 	connectString := os.Getenv("ConnectionString")
@@ -43,7 +46,7 @@ func Connect() *DB {
 }
 
 func (db *DB) GetCharacter(id int) *model.Character {
-	characterCollection := db.client.Database("stellerlink").Collection("characters")
+	characterCollection := db.client.Database(collectionName).Collection("characters")
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 	log.Printf("Search for id %v", id)
@@ -67,12 +70,11 @@ func (db *DB) GetCharacter(id int) *model.Character {
 }
 
 func (db *DB) GetCharacters() []*model.Character {
-	characterCollection := db.client.Database("stellerlink").Collection("characters")
+	characterCollection := db.client.Database(collectionName).Collection("characters")
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 	var characters []*model.Character
 	cursor, err := characterCollection.Find(ctx, bson.D{})
-	log.Printf(cursor.Current.String())
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -81,4 +83,20 @@ func (db *DB) GetCharacters() []*model.Character {
 	}
 
 	return characters
+}
+
+func (db *DB) AddCharacter(input *model.CharacterInput) *model.Character {
+	characterCollection := db.client.Database(collectionName).Collection("characters")
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	insert, err := characterCollection.InsertOne(ctx, &input)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	insert.InsertedID.(primitive.ObjectID).Hex()
+
+	return db.GetCharacter(input.ID)
 }

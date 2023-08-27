@@ -2,10 +2,206 @@
 
 package model
 
+import (
+	"fmt"
+	"io"
+	"strconv"
+)
+
+type AscensionMaterials struct {
+	Quantity int       `json:"quantity"`
+	Material *Material `json:"material"`
+}
+
+type AscensionMaterialsInput struct {
+	Quantity int            `json:"quantity"`
+	Material *MaterialInput `json:"material"`
+}
+
 // Character Data
 type Character struct {
-	ID        int    `json:"_id"`
-	Name      string `json:"name"`
-	Image     string `json:"image"`
-	SplashArt string `json:"splashArt"`
+	ID         int         `json:"id"`
+	Name       string      `json:"name"`
+	Faction    string      `json:"faction"`
+	Rarity     int         `json:"rarity"`
+	Path       Path        `json:"path"`
+	CombatType CombatType  `json:"combatType"`
+	Story      string      `json:"story"`
+	Stats      []*StatItem `json:"stats"`
+	Eidolons   []*Eidolon  `json:"eidolons"`
+}
+
+// Input Character
+type CharacterInput struct {
+	ID         int              `json:"id"`
+	Name       string           `json:"name"`
+	Faction    string           `json:"faction"`
+	Rarity     int              `json:"rarity"`
+	Path       Path             `json:"path"`
+	CombatType CombatType       `json:"combatType"`
+	Story      string           `json:"Story"`
+	Stats      []*StatItemInput `json:"stats"`
+	Eidolons   []*EidolonInput  `json:"eidolons"`
+}
+
+type Eidolon struct {
+	Index       int    `json:"index"`
+	Image       string `json:"image"`
+	Title       string `json:"title"`
+	Description string `json:"description"`
+	Logo        string `json:"logo"`
+}
+
+type EidolonInput struct {
+	Index       int    `json:"index"`
+	Image       string `json:"image"`
+	Title       string `json:"title"`
+	Description string `json:"description"`
+	Logo        string `json:"logo"`
+}
+
+type Material struct {
+	Name        string   `json:"name"`
+	Rarity      int      `json:"rarity"`
+	Type        []string `json:"type"`
+	Description string   `json:"description"`
+	Story       string   `json:"story"`
+}
+
+type MaterialInput struct {
+	Name        string   `json:"name"`
+	Rarity      int      `json:"rarity"`
+	Type        []string `json:"type"`
+	Description string   `json:"description"`
+	Story       string   `json:"story"`
+}
+
+type StatItem struct {
+	Level              string                `json:"level"`
+	Atk                float64               `json:"atk"`
+	Def                float64               `json:"def"`
+	Hp                 int                   `json:"hp"`
+	Spd                int                   `json:"spd"`
+	CritRate           string                `json:"critRate"`
+	CritDamage         string                `json:"critDamage"`
+	Taunt              int                   `json:"taunt"`
+	Enengy             int                   `json:"enengy"`
+	AscensionMaterials []*AscensionMaterials `json:"ascensionMaterials"`
+}
+
+type StatItemInput struct {
+	Level              string                     `json:"level"`
+	Atk                float64                    `json:"atk"`
+	Def                float64                    `json:"def"`
+	Hp                 int                        `json:"hp"`
+	Spd                int                        `json:"spd"`
+	CritRate           string                     `json:"critRate"`
+	CritDamage         string                     `json:"critDamage"`
+	Taunt              int                        `json:"taunt"`
+	Enengy             int                        `json:"enengy"`
+	AscensionMaterials []*AscensionMaterialsInput `json:"ascensionMaterials,omitempty"`
+}
+
+// Combat Types
+type CombatType string
+
+const (
+	CombatTypePhysical  CombatType = "Physical"
+	CombatTypeFire      CombatType = "Fire"
+	CombatTypeIce       CombatType = "Ice"
+	CombatTypeLightning CombatType = "Lightning"
+	CombatTypeWind      CombatType = "Wind"
+	CombatTypeQuantum   CombatType = "Quantum"
+	CombatTypeImaginary CombatType = "Imaginary"
+)
+
+var AllCombatType = []CombatType{
+	CombatTypePhysical,
+	CombatTypeFire,
+	CombatTypeIce,
+	CombatTypeLightning,
+	CombatTypeWind,
+	CombatTypeQuantum,
+	CombatTypeImaginary,
+}
+
+func (e CombatType) IsValid() bool {
+	switch e {
+	case CombatTypePhysical, CombatTypeFire, CombatTypeIce, CombatTypeLightning, CombatTypeWind, CombatTypeQuantum, CombatTypeImaginary:
+		return true
+	}
+	return false
+}
+
+func (e CombatType) String() string {
+	return string(e)
+}
+
+func (e *CombatType) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = CombatType(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid CombatType", str)
+	}
+	return nil
+}
+
+func (e CombatType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+// Path
+type Path string
+
+const (
+	PathDestruction  Path = "Destruction"
+	PathHunt         Path = "Hunt"
+	PathErudition    Path = "Erudition"
+	PathHarmony      Path = "Harmony"
+	PathNihility     Path = "Nihility"
+	PathPreservation Path = "Preservation"
+	PathAbundance    Path = "Abundance"
+)
+
+var AllPath = []Path{
+	PathDestruction,
+	PathHunt,
+	PathErudition,
+	PathHarmony,
+	PathNihility,
+	PathPreservation,
+	PathAbundance,
+}
+
+func (e Path) IsValid() bool {
+	switch e {
+	case PathDestruction, PathHunt, PathErudition, PathHarmony, PathNihility, PathPreservation, PathAbundance:
+		return true
+	}
+	return false
+}
+
+func (e Path) String() string {
+	return string(e)
+}
+
+func (e *Path) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = Path(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid Path", str)
+	}
+	return nil
+}
+
+func (e Path) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
 }

@@ -6,3 +6,6 @@ gen:
 
 dev:
 	CompileDaemon -command="./stellerlink-backend"
+
+tunnel:
+	cloudflared tunnel --url localhost:8080

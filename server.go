@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 	"os"
 
@@ -30,13 +31,15 @@ func playgroundHandler() gin.HandlerFunc {
 }
 
 func main() {
+	port := os.Getenv("PORT")
 	app := gin.Default()
 
 	app.POST("/graphql", graphqlHandler())
 	app.GET("/", playgroundHandler())
 	app.Use(middlewareAuth())
 	app.StaticFS("/images", http.Dir("assets/images"))
-	app.Run(":8080")
+	fmt.Println("Playground started at http://localhost:" + port)
+	app.Run(":" + port)
 }
 
 func middlewareAuth() gin.HandlerFunc {

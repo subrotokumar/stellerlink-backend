@@ -2,21 +2,146 @@
 #
 # https://gqlgen.com/getting-started/
 
+# Character Input
+#
+# Start
+
 """
 Character Data
 """
 type Character {
-  _id: Int!
+  id: Int!
   name: String!
+  faction: String!
+  rarity: Int!
+  path: Path!
+  combatType: CombatType!
+  story: String!
+  stats: [StatItem!]!
+  eidolons: [Eidolon]!
+}
+
+type StatItem {
+  level: String!
+  atk: Float!
+  def: Float!
+  hp: Int!
+  spd: Int!
+  critRate: String!
+  critDamage: String!
+  taunt: Int!
+  enengy: Int!
+  ascensionMaterials: [AscensionMaterials!]!
+}
+
+type AscensionMaterials {
+  quantity: Int!
+  material: Material!
+}
+
+type Material {
+  name: String!
+  rarity: Int!
+  type: [String!]!
+  description: String!
+  story: String!
+}
+
+type Eidolon {
+  index: Int!
   image: String!
-  splashArt: String!
+  title: String!
+  description: String!
+  logo: String!
 }
 
+"""
+Input Character
+"""
+input CharacterInput {
+  id: Int!
+  name: String!
+  faction: String!
+  rarity: Int!
+  path: Path!
+  combatType: CombatType!
+  Story: String!
+  stats: [StatItemInput!]!
+  eidolons: [EidolonInput]!
+}
+
+input StatItemInput {
+  level: String!
+  atk: Float!
+  def: Float!
+  hp: Int!
+  spd: Int!
+  critRate: String!
+  critDamage: String!
+  taunt: Int!
+  enengy: Int!
+  ascensionMaterials: [AscensionMaterialsInput!]
+}
+
+input AscensionMaterialsInput {
+  quantity: Int!
+  material: MaterialInput!
+}
+
+input MaterialInput {
+  name: String!
+  rarity: Int!
+  type: [String!]!
+  description: String!
+  story: String!
+}
+
+input EidolonInput {
+  index: Int!
+  image: String!
+  title: String!
+  description: String!
+  logo: String!
+}
+
+"""
+Query
+"""
 type Query {
-  Character(id: Int!): Character!
-  Characters: [Character!]!
+  character(id: Int!): Character!
+  characters: [Character!]!
 }
 
+"""
+Mutation
+"""
 type Mutation {
   hello: String!
+  addCharacter(input: CharacterInput): Character!
+}
+
+"""
+Path
+"""
+enum Path {
+  Destruction
+  Hunt
+  Erudition
+  Harmony
+  Nihility
+  Preservation
+  Abundance
+}
+
+"""
+Combat Types
+"""
+enum CombatType {
+  Physical
+  Fire
+  Ice
+  Lightning
+  Wind
+  Quantum
+  Imaginary
 }

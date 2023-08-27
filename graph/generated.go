@@ -45,25 +45,66 @@ type DirectiveRoot struct {
 }
 
 type ComplexityRoot struct {
+	AscensionMaterials struct {
+		Material func(childComplexity int) int
+		Quantity func(childComplexity int) int
+	}
+
 	Character struct {
-		ID        func(childComplexity int) int
-		Image     func(childComplexity int) int
-		Name      func(childComplexity int) int
-		SplashArt func(childComplexity int) int
+		CombatType func(childComplexity int) int
+		Eidolons   func(childComplexity int) int
+		Faction    func(childComplexity int) int
+		ID         func(childComplexity int) int
+		Name       func(childComplexity int) int
+		Path       func(childComplexity int) int
+		Rarity     func(childComplexity int) int
+		Stats      func(childComplexity int) int
+		Story      func(childComplexity int) int
+	}
+
+	Eidolon struct {
+		Description func(childComplexity int) int
+		Image       func(childComplexity int) int
+		Index       func(childComplexity int) int
+		Logo        func(childComplexity int) int
+		Title       func(childComplexity int) int
+	}
+
+	Material struct {
+		Description func(childComplexity int) int
+		Name        func(childComplexity int) int
+		Rarity      func(childComplexity int) int
+		Story       func(childComplexity int) int
+		Type        func(childComplexity int) int
 	}
 
 	Mutation struct {
-		Hello func(childComplexity int) int
+		AddCharacter func(childComplexity int, input *model.CharacterInput) int
+		Hello        func(childComplexity int) int
 	}
 
 	Query struct {
 		Character  func(childComplexity int, id int) int
 		Characters func(childComplexity int) int
 	}
+
+	StatItem struct {
+		AscensionMaterials func(childComplexity int) int
+		Atk                func(childComplexity int) int
+		CritDamage         func(childComplexity int) int
+		CritRate           func(childComplexity int) int
+		Def                func(childComplexity int) int
+		Enengy             func(childComplexity int) int
+		Hp                 func(childComplexity int) int
+		Level              func(childComplexity int) int
+		Spd                func(childComplexity int) int
+		Taunt              func(childComplexity int) int
+	}
 }
 
 type MutationResolver interface {
 	Hello(ctx context.Context) (string, error)
+	AddCharacter(ctx context.Context, input *model.CharacterInput) (*model.Character, error)
 }
 type QueryResolver interface {
 	Character(ctx context.Context, id int) (*model.Character, error)
@@ -85,19 +126,47 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 	_ = ec
 	switch typeName + "." + field {
 
-	case "Character._id":
+	case "AscensionMaterials.material":
+		if e.complexity.AscensionMaterials.Material == nil {
+			break
+		}
+
+		return e.complexity.AscensionMaterials.Material(childComplexity), true
+
+	case "AscensionMaterials.quantity":
+		if e.complexity.AscensionMaterials.Quantity == nil {
+			break
+		}
+
+		return e.complexity.AscensionMaterials.Quantity(childComplexity), true
+
+	case "Character.combatType":
+		if e.complexity.Character.CombatType == nil {
+			break
+		}
+
+		return e.complexity.Character.CombatType(childComplexity), true
+
+	case "Character.eidolons":
+		if e.complexity.Character.Eidolons == nil {
+			break
+		}
+
+		return e.complexity.Character.Eidolons(childComplexity), true
+
+	case "Character.faction":
+		if e.complexity.Character.Faction == nil {
+			break
+		}
+
+		return e.complexity.Character.Faction(childComplexity), true
+
+	case "Character.id":
 		if e.complexity.Character.ID == nil {
 			break
 		}
 
 		return e.complexity.Character.ID(childComplexity), true
-
-	case "Character.image":
-		if e.complexity.Character.Image == nil {
-			break
-		}
-
-		return e.complexity.Character.Image(childComplexity), true
 
 	case "Character.name":
 		if e.complexity.Character.Name == nil {
@@ -106,12 +175,115 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Character.Name(childComplexity), true
 
-	case "Character.splashArt":
-		if e.complexity.Character.SplashArt == nil {
+	case "Character.path":
+		if e.complexity.Character.Path == nil {
 			break
 		}
 
-		return e.complexity.Character.SplashArt(childComplexity), true
+		return e.complexity.Character.Path(childComplexity), true
+
+	case "Character.rarity":
+		if e.complexity.Character.Rarity == nil {
+			break
+		}
+
+		return e.complexity.Character.Rarity(childComplexity), true
+
+	case "Character.stats":
+		if e.complexity.Character.Stats == nil {
+			break
+		}
+
+		return e.complexity.Character.Stats(childComplexity), true
+
+	case "Character.story":
+		if e.complexity.Character.Story == nil {
+			break
+		}
+
+		return e.complexity.Character.Story(childComplexity), true
+
+	case "Eidolon.description":
+		if e.complexity.Eidolon.Description == nil {
+			break
+		}
+
+		return e.complexity.Eidolon.Description(childComplexity), true
+
+	case "Eidolon.image":
+		if e.complexity.Eidolon.Image == nil {
+			break
+		}
+
+		return e.complexity.Eidolon.Image(childComplexity), true
+
+	case "Eidolon.index":
+		if e.complexity.Eidolon.Index == nil {
+			break
+		}
+
+		return e.complexity.Eidolon.Index(childComplexity), true
+
+	case "Eidolon.logo":
+		if e.complexity.Eidolon.Logo == nil {
+			break
+		}
+
+		return e.complexity.Eidolon.Logo(childComplexity), true
+
+	case "Eidolon.title":
+		if e.complexity.Eidolon.Title == nil {
+			break
+		}
+
+		return e.complexity.Eidolon.Title(childComplexity), true
+
+	case "Material.description":
+		if e.complexity.Material.Description == nil {
+			break
+		}
+
+		return e.complexity.Material.Description(childComplexity), true
+
+	case "Material.name":
+		if e.complexity.Material.Name == nil {
+			break
+		}
+
+		return e.complexity.Material.Name(childComplexity), true
+
+	case "Material.rarity":
+		if e.complexity.Material.Rarity == nil {
+			break
+		}
+
+		return e.complexity.Material.Rarity(childComplexity), true
+
+	case "Material.story":
+		if e.complexity.Material.Story == nil {
+			break
+		}
+
+		return e.complexity.Material.Story(childComplexity), true
+
+	case "Material.type":
+		if e.complexity.Material.Type == nil {
+			break
+		}
+
+		return e.complexity.Material.Type(childComplexity), true
+
+	case "Mutation.addCharacter":
+		if e.complexity.Mutation.AddCharacter == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_addCharacter_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.AddCharacter(childComplexity, args["input"].(*model.CharacterInput)), true
 
 	case "Mutation.hello":
 		if e.complexity.Mutation.Hello == nil {
@@ -120,24 +292,94 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Mutation.Hello(childComplexity), true
 
-	case "Query.Character":
+	case "Query.character":
 		if e.complexity.Query.Character == nil {
 			break
 		}
 
-		args, err := ec.field_Query_Character_args(context.TODO(), rawArgs)
+		args, err := ec.field_Query_character_args(context.TODO(), rawArgs)
 		if err != nil {
 			return 0, false
 		}
 
 		return e.complexity.Query.Character(childComplexity, args["id"].(int)), true
 
-	case "Query.Characters":
+	case "Query.characters":
 		if e.complexity.Query.Characters == nil {
 			break
 		}
 
 		return e.complexity.Query.Characters(childComplexity), true
+
+	case "StatItem.ascensionMaterials":
+		if e.complexity.StatItem.AscensionMaterials == nil {
+			break
+		}
+
+		return e.complexity.StatItem.AscensionMaterials(childComplexity), true
+
+	case "StatItem.atk":
+		if e.complexity.StatItem.Atk == nil {
+			break
+		}
+
+		return e.complexity.StatItem.Atk(childComplexity), true
+
+	case "StatItem.critDamage":
+		if e.complexity.StatItem.CritDamage == nil {
+			break
+		}
+
+		return e.complexity.StatItem.CritDamage(childComplexity), true
+
+	case "StatItem.critRate":
+		if e.complexity.StatItem.CritRate == nil {
+			break
+		}
+
+		return e.complexity.StatItem.CritRate(childComplexity), true
+
+	case "StatItem.def":
+		if e.complexity.StatItem.Def == nil {
+			break
+		}
+
+		return e.complexity.StatItem.Def(childComplexity), true
+
+	case "StatItem.enengy":
+		if e.complexity.StatItem.Enengy == nil {
+			break
+		}
+
+		return e.complexity.StatItem.Enengy(childComplexity), true
+
+	case "StatItem.hp":
+		if e.complexity.StatItem.Hp == nil {
+			break
+		}
+
+		return e.complexity.StatItem.Hp(childComplexity), true
+
+	case "StatItem.level":
+		if e.complexity.StatItem.Level == nil {
+			break
+		}
+
+		return e.complexity.StatItem.Level(childComplexity), true
+
+	case "StatItem.spd":
+		if e.complexity.StatItem.Spd == nil {
+			break
+		}
+
+		return e.complexity.StatItem.Spd(childComplexity), true
+
+	case "StatItem.taunt":
+		if e.complexity.StatItem.Taunt == nil {
+			break
+		}
+
+		return e.complexity.StatItem.Taunt(childComplexity), true
 
 	}
 	return 0, false
@@ -146,7 +388,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 	rc := graphql.GetOperationContext(ctx)
 	ec := executionContext{rc, e, 0, 0, make(chan graphql.DeferredResult)}
-	inputUnmarshalMap := graphql.BuildUnmarshalerMap()
+	inputUnmarshalMap := graphql.BuildUnmarshalerMap(
+		ec.unmarshalInputAscensionMaterialsInput,
+		ec.unmarshalInputCharacterInput,
+		ec.unmarshalInputEidolonInput,
+		ec.unmarshalInputMaterialInput,
+		ec.unmarshalInputStatItemInput,
+	)
 	first := true
 
 	switch rc.Operation.Operation {
@@ -262,18 +510,18 @@ var parsedSchema = gqlparser.MustLoadSchema(sources...)
 
 // region    ***************************** args.gotpl *****************************
 
-func (ec *executionContext) field_Query_Character_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+func (ec *executionContext) field_Mutation_addCharacter_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 int
-	if tmp, ok := rawArgs["id"]; ok {
-		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
-		arg0, err = ec.unmarshalNInt2int(ctx, tmp)
+	var arg0 *model.CharacterInput
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg0, err = ec.unmarshalOCharacterInput2ᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐCharacterInput(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["id"] = arg0
+	args["input"] = arg0
 	return args, nil
 }
 
@@ -289,6 +537,21 @@ func (ec *executionContext) field_Query___type_args(ctx context.Context, rawArgs
 		}
 	}
 	args["name"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Query_character_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 int
+	if tmp, ok := rawArgs["id"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+		arg0, err = ec.unmarshalNInt2int(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["id"] = arg0
 	return args, nil
 }
 
@@ -330,8 +593,108 @@ func (ec *executionContext) field___Type_fields_args(ctx context.Context, rawArg
 
 // region    **************************** field.gotpl *****************************
 
-func (ec *executionContext) _Character__id(ctx context.Context, field graphql.CollectedField, obj *model.Character) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Character__id(ctx, field)
+func (ec *executionContext) _AscensionMaterials_quantity(ctx context.Context, field graphql.CollectedField, obj *model.AscensionMaterials) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_AscensionMaterials_quantity(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Quantity, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_AscensionMaterials_quantity(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "AscensionMaterials",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _AscensionMaterials_material(ctx context.Context, field graphql.CollectedField, obj *model.AscensionMaterials) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_AscensionMaterials_material(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Material, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Material)
+	fc.Result = res
+	return ec.marshalNMaterial2ᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐMaterial(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_AscensionMaterials_material(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "AscensionMaterials",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "name":
+				return ec.fieldContext_Material_name(ctx, field)
+			case "rarity":
+				return ec.fieldContext_Material_rarity(ctx, field)
+			case "type":
+				return ec.fieldContext_Material_type(ctx, field)
+			case "description":
+				return ec.fieldContext_Material_description(ctx, field)
+			case "story":
+				return ec.fieldContext_Material_story(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Material", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Character_id(ctx context.Context, field graphql.CollectedField, obj *model.Character) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Character_id(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -361,7 +724,7 @@ func (ec *executionContext) _Character__id(ctx context.Context, field graphql.Co
 	return ec.marshalNInt2int(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_Character__id(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_Character_id(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Character",
 		Field:      field,
@@ -418,8 +781,394 @@ func (ec *executionContext) fieldContext_Character_name(ctx context.Context, fie
 	return fc, nil
 }
 
-func (ec *executionContext) _Character_image(ctx context.Context, field graphql.CollectedField, obj *model.Character) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Character_image(ctx, field)
+func (ec *executionContext) _Character_faction(ctx context.Context, field graphql.CollectedField, obj *model.Character) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Character_faction(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Faction, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Character_faction(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Character",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Character_rarity(ctx context.Context, field graphql.CollectedField, obj *model.Character) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Character_rarity(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Rarity, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Character_rarity(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Character",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Character_path(ctx context.Context, field graphql.CollectedField, obj *model.Character) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Character_path(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Path, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(model.Path)
+	fc.Result = res
+	return ec.marshalNPath2githubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐPath(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Character_path(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Character",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Path does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Character_combatType(ctx context.Context, field graphql.CollectedField, obj *model.Character) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Character_combatType(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CombatType, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(model.CombatType)
+	fc.Result = res
+	return ec.marshalNCombatType2githubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐCombatType(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Character_combatType(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Character",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type CombatType does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Character_story(ctx context.Context, field graphql.CollectedField, obj *model.Character) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Character_story(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Story, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Character_story(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Character",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Character_stats(ctx context.Context, field graphql.CollectedField, obj *model.Character) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Character_stats(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Stats, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.StatItem)
+	fc.Result = res
+	return ec.marshalNStatItem2ᚕᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐStatItemᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Character_stats(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Character",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "level":
+				return ec.fieldContext_StatItem_level(ctx, field)
+			case "atk":
+				return ec.fieldContext_StatItem_atk(ctx, field)
+			case "def":
+				return ec.fieldContext_StatItem_def(ctx, field)
+			case "hp":
+				return ec.fieldContext_StatItem_hp(ctx, field)
+			case "spd":
+				return ec.fieldContext_StatItem_spd(ctx, field)
+			case "critRate":
+				return ec.fieldContext_StatItem_critRate(ctx, field)
+			case "critDamage":
+				return ec.fieldContext_StatItem_critDamage(ctx, field)
+			case "taunt":
+				return ec.fieldContext_StatItem_taunt(ctx, field)
+			case "enengy":
+				return ec.fieldContext_StatItem_enengy(ctx, field)
+			case "ascensionMaterials":
+				return ec.fieldContext_StatItem_ascensionMaterials(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type StatItem", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Character_eidolons(ctx context.Context, field graphql.CollectedField, obj *model.Character) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Character_eidolons(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Eidolons, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.Eidolon)
+	fc.Result = res
+	return ec.marshalNEidolon2ᚕᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐEidolon(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Character_eidolons(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Character",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "index":
+				return ec.fieldContext_Eidolon_index(ctx, field)
+			case "image":
+				return ec.fieldContext_Eidolon_image(ctx, field)
+			case "title":
+				return ec.fieldContext_Eidolon_title(ctx, field)
+			case "description":
+				return ec.fieldContext_Eidolon_description(ctx, field)
+			case "logo":
+				return ec.fieldContext_Eidolon_logo(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Eidolon", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Eidolon_index(ctx context.Context, field graphql.CollectedField, obj *model.Eidolon) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Eidolon_index(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Index, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Eidolon_index(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Eidolon",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Eidolon_image(ctx context.Context, field graphql.CollectedField, obj *model.Eidolon) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Eidolon_image(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -449,9 +1198,9 @@ func (ec *executionContext) _Character_image(ctx context.Context, field graphql.
 	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_Character_image(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_Eidolon_image(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
-		Object:     "Character",
+		Object:     "Eidolon",
 		Field:      field,
 		IsMethod:   false,
 		IsResolver: false,
@@ -462,8 +1211,8 @@ func (ec *executionContext) fieldContext_Character_image(ctx context.Context, fi
 	return fc, nil
 }
 
-func (ec *executionContext) _Character_splashArt(ctx context.Context, field graphql.CollectedField, obj *model.Character) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Character_splashArt(ctx, field)
+func (ec *executionContext) _Eidolon_title(ctx context.Context, field graphql.CollectedField, obj *model.Eidolon) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Eidolon_title(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -476,7 +1225,7 @@ func (ec *executionContext) _Character_splashArt(ctx context.Context, field grap
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.SplashArt, nil
+		return obj.Title, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -493,9 +1242,317 @@ func (ec *executionContext) _Character_splashArt(ctx context.Context, field grap
 	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_Character_splashArt(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_Eidolon_title(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
-		Object:     "Character",
+		Object:     "Eidolon",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Eidolon_description(ctx context.Context, field graphql.CollectedField, obj *model.Eidolon) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Eidolon_description(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Description, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Eidolon_description(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Eidolon",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Eidolon_logo(ctx context.Context, field graphql.CollectedField, obj *model.Eidolon) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Eidolon_logo(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Logo, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Eidolon_logo(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Eidolon",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Material_name(ctx context.Context, field graphql.CollectedField, obj *model.Material) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Material_name(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Name, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Material_name(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Material",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Material_rarity(ctx context.Context, field graphql.CollectedField, obj *model.Material) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Material_rarity(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Rarity, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Material_rarity(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Material",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Material_type(ctx context.Context, field graphql.CollectedField, obj *model.Material) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Material_type(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Type, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]string)
+	fc.Result = res
+	return ec.marshalNString2ᚕstringᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Material_type(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Material",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Material_description(ctx context.Context, field graphql.CollectedField, obj *model.Material) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Material_description(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Description, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Material_description(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Material",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Material_story(ctx context.Context, field graphql.CollectedField, obj *model.Material) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Material_story(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Story, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Material_story(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Material",
 		Field:      field,
 		IsMethod:   false,
 		IsResolver: false,
@@ -550,8 +1607,83 @@ func (ec *executionContext) fieldContext_Mutation_hello(ctx context.Context, fie
 	return fc, nil
 }
 
-func (ec *executionContext) _Query_Character(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_Character(ctx, field)
+func (ec *executionContext) _Mutation_addCharacter(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_addCharacter(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().AddCharacter(rctx, fc.Args["input"].(*model.CharacterInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Character)
+	fc.Result = res
+	return ec.marshalNCharacter2ᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐCharacter(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_addCharacter(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Character_id(ctx, field)
+			case "name":
+				return ec.fieldContext_Character_name(ctx, field)
+			case "faction":
+				return ec.fieldContext_Character_faction(ctx, field)
+			case "rarity":
+				return ec.fieldContext_Character_rarity(ctx, field)
+			case "path":
+				return ec.fieldContext_Character_path(ctx, field)
+			case "combatType":
+				return ec.fieldContext_Character_combatType(ctx, field)
+			case "story":
+				return ec.fieldContext_Character_story(ctx, field)
+			case "stats":
+				return ec.fieldContext_Character_stats(ctx, field)
+			case "eidolons":
+				return ec.fieldContext_Character_eidolons(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Character", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_addCharacter_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_character(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_character(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -581,7 +1713,7 @@ func (ec *executionContext) _Query_Character(ctx context.Context, field graphql.
 	return ec.marshalNCharacter2ᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐCharacter(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_Query_Character(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_Query_character(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Query",
 		Field:      field,
@@ -589,14 +1721,24 @@ func (ec *executionContext) fieldContext_Query_Character(ctx context.Context, fi
 		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
-			case "_id":
-				return ec.fieldContext_Character__id(ctx, field)
+			case "id":
+				return ec.fieldContext_Character_id(ctx, field)
 			case "name":
 				return ec.fieldContext_Character_name(ctx, field)
-			case "image":
-				return ec.fieldContext_Character_image(ctx, field)
-			case "splashArt":
-				return ec.fieldContext_Character_splashArt(ctx, field)
+			case "faction":
+				return ec.fieldContext_Character_faction(ctx, field)
+			case "rarity":
+				return ec.fieldContext_Character_rarity(ctx, field)
+			case "path":
+				return ec.fieldContext_Character_path(ctx, field)
+			case "combatType":
+				return ec.fieldContext_Character_combatType(ctx, field)
+			case "story":
+				return ec.fieldContext_Character_story(ctx, field)
+			case "stats":
+				return ec.fieldContext_Character_stats(ctx, field)
+			case "eidolons":
+				return ec.fieldContext_Character_eidolons(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type Character", field.Name)
 		},
@@ -608,15 +1750,15 @@ func (ec *executionContext) fieldContext_Query_Character(ctx context.Context, fi
 		}
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Query_Character_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+	if fc.Args, err = ec.field_Query_character_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
 	return fc, nil
 }
 
-func (ec *executionContext) _Query_Characters(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_Characters(ctx, field)
+func (ec *executionContext) _Query_characters(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_characters(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -646,7 +1788,7 @@ func (ec *executionContext) _Query_Characters(ctx context.Context, field graphql
 	return ec.marshalNCharacter2ᚕᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐCharacterᚄ(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_Query_Characters(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_Query_characters(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Query",
 		Field:      field,
@@ -654,14 +1796,24 @@ func (ec *executionContext) fieldContext_Query_Characters(ctx context.Context, f
 		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
-			case "_id":
-				return ec.fieldContext_Character__id(ctx, field)
+			case "id":
+				return ec.fieldContext_Character_id(ctx, field)
 			case "name":
 				return ec.fieldContext_Character_name(ctx, field)
-			case "image":
-				return ec.fieldContext_Character_image(ctx, field)
-			case "splashArt":
-				return ec.fieldContext_Character_splashArt(ctx, field)
+			case "faction":
+				return ec.fieldContext_Character_faction(ctx, field)
+			case "rarity":
+				return ec.fieldContext_Character_rarity(ctx, field)
+			case "path":
+				return ec.fieldContext_Character_path(ctx, field)
+			case "combatType":
+				return ec.fieldContext_Character_combatType(ctx, field)
+			case "story":
+				return ec.fieldContext_Character_story(ctx, field)
+			case "stats":
+				return ec.fieldContext_Character_stats(ctx, field)
+			case "eidolons":
+				return ec.fieldContext_Character_eidolons(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type Character", field.Name)
 		},
@@ -793,6 +1945,452 @@ func (ec *executionContext) fieldContext_Query___schema(ctx context.Context, fie
 				return ec.fieldContext___Schema_directives(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type __Schema", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _StatItem_level(ctx context.Context, field graphql.CollectedField, obj *model.StatItem) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_StatItem_level(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Level, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_StatItem_level(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "StatItem",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _StatItem_atk(ctx context.Context, field graphql.CollectedField, obj *model.StatItem) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_StatItem_atk(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Atk, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(float64)
+	fc.Result = res
+	return ec.marshalNFloat2float64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_StatItem_atk(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "StatItem",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Float does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _StatItem_def(ctx context.Context, field graphql.CollectedField, obj *model.StatItem) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_StatItem_def(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Def, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(float64)
+	fc.Result = res
+	return ec.marshalNFloat2float64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_StatItem_def(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "StatItem",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Float does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _StatItem_hp(ctx context.Context, field graphql.CollectedField, obj *model.StatItem) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_StatItem_hp(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Hp, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_StatItem_hp(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "StatItem",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _StatItem_spd(ctx context.Context, field graphql.CollectedField, obj *model.StatItem) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_StatItem_spd(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Spd, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_StatItem_spd(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "StatItem",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _StatItem_critRate(ctx context.Context, field graphql.CollectedField, obj *model.StatItem) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_StatItem_critRate(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CritRate, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_StatItem_critRate(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "StatItem",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _StatItem_critDamage(ctx context.Context, field graphql.CollectedField, obj *model.StatItem) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_StatItem_critDamage(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CritDamage, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_StatItem_critDamage(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "StatItem",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _StatItem_taunt(ctx context.Context, field graphql.CollectedField, obj *model.StatItem) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_StatItem_taunt(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Taunt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_StatItem_taunt(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "StatItem",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _StatItem_enengy(ctx context.Context, field graphql.CollectedField, obj *model.StatItem) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_StatItem_enengy(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Enengy, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_StatItem_enengy(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "StatItem",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _StatItem_ascensionMaterials(ctx context.Context, field graphql.CollectedField, obj *model.StatItem) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_StatItem_ascensionMaterials(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.AscensionMaterials, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.AscensionMaterials)
+	fc.Result = res
+	return ec.marshalNAscensionMaterials2ᚕᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐAscensionMaterialsᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_StatItem_ascensionMaterials(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "StatItem",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "quantity":
+				return ec.fieldContext_AscensionMaterials_quantity(ctx, field)
+			case "material":
+				return ec.fieldContext_AscensionMaterials_material(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type AscensionMaterials", field.Name)
 		},
 	}
 	return fc, nil
@@ -2571,6 +4169,385 @@ func (ec *executionContext) fieldContext___Type_specifiedByURL(ctx context.Conte
 
 // region    **************************** input.gotpl *****************************
 
+func (ec *executionContext) unmarshalInputAscensionMaterialsInput(ctx context.Context, obj interface{}) (model.AscensionMaterialsInput, error) {
+	var it model.AscensionMaterialsInput
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"quantity", "material"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "quantity":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("quantity"))
+			data, err := ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Quantity = data
+		case "material":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("material"))
+			data, err := ec.unmarshalNMaterialInput2ᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐMaterialInput(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Material = data
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputCharacterInput(ctx context.Context, obj interface{}) (model.CharacterInput, error) {
+	var it model.CharacterInput
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"id", "name", "faction", "rarity", "path", "combatType", "Story", "stats", "eidolons"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "id":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+			data, err := ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.ID = data
+		case "name":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Name = data
+		case "faction":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("faction"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Faction = data
+		case "rarity":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("rarity"))
+			data, err := ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Rarity = data
+		case "path":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("path"))
+			data, err := ec.unmarshalNPath2githubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐPath(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Path = data
+		case "combatType":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("combatType"))
+			data, err := ec.unmarshalNCombatType2githubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐCombatType(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.CombatType = data
+		case "Story":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Story"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Story = data
+		case "stats":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("stats"))
+			data, err := ec.unmarshalNStatItemInput2ᚕᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐStatItemInputᚄ(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Stats = data
+		case "eidolons":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("eidolons"))
+			data, err := ec.unmarshalNEidolonInput2ᚕᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐEidolonInput(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Eidolons = data
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputEidolonInput(ctx context.Context, obj interface{}) (model.EidolonInput, error) {
+	var it model.EidolonInput
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"index", "image", "title", "description", "logo"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "index":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("index"))
+			data, err := ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Index = data
+		case "image":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("image"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Image = data
+		case "title":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("title"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Title = data
+		case "description":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("description"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Description = data
+		case "logo":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("logo"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Logo = data
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputMaterialInput(ctx context.Context, obj interface{}) (model.MaterialInput, error) {
+	var it model.MaterialInput
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"name", "rarity", "type", "description", "story"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "name":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Name = data
+		case "rarity":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("rarity"))
+			data, err := ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Rarity = data
+		case "type":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("type"))
+			data, err := ec.unmarshalNString2ᚕstringᚄ(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Type = data
+		case "description":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("description"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Description = data
+		case "story":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("story"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Story = data
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputStatItemInput(ctx context.Context, obj interface{}) (model.StatItemInput, error) {
+	var it model.StatItemInput
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"level", "atk", "def", "hp", "spd", "critRate", "critDamage", "taunt", "enengy", "ascensionMaterials"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "level":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("level"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Level = data
+		case "atk":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("atk"))
+			data, err := ec.unmarshalNFloat2float64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Atk = data
+		case "def":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("def"))
+			data, err := ec.unmarshalNFloat2float64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Def = data
+		case "hp":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("hp"))
+			data, err := ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Hp = data
+		case "spd":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("spd"))
+			data, err := ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Spd = data
+		case "critRate":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("critRate"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.CritRate = data
+		case "critDamage":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("critDamage"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.CritDamage = data
+		case "taunt":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("taunt"))
+			data, err := ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Taunt = data
+		case "enengy":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("enengy"))
+			data, err := ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Enengy = data
+		case "ascensionMaterials":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("ascensionMaterials"))
+			data, err := ec.unmarshalOAscensionMaterialsInput2ᚕᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐAscensionMaterialsInputᚄ(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.AscensionMaterials = data
+		}
+	}
+
+	return it, nil
+}
+
 // endregion **************************** input.gotpl *****************************
 
 // region    ************************** interface.gotpl ***************************
@@ -2578,6 +4555,50 @@ func (ec *executionContext) fieldContext___Type_specifiedByURL(ctx context.Conte
 // endregion ************************** interface.gotpl ***************************
 
 // region    **************************** object.gotpl ****************************
+
+var ascensionMaterialsImplementors = []string{"AscensionMaterials"}
+
+func (ec *executionContext) _AscensionMaterials(ctx context.Context, sel ast.SelectionSet, obj *model.AscensionMaterials) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, ascensionMaterialsImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("AscensionMaterials")
+		case "quantity":
+			out.Values[i] = ec._AscensionMaterials_quantity(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "material":
+			out.Values[i] = ec._AscensionMaterials_material(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
 
 var characterImplementors = []string{"Character"}
 
@@ -2590,8 +4611,8 @@ func (ec *executionContext) _Character(ctx context.Context, sel ast.SelectionSet
 		switch field.Name {
 		case "__typename":
 			out.Values[i] = graphql.MarshalString("Character")
-		case "_id":
-			out.Values[i] = ec._Character__id(ctx, field, obj)
+		case "id":
+			out.Values[i] = ec._Character_id(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
@@ -2600,13 +4621,156 @@ func (ec *executionContext) _Character(ctx context.Context, sel ast.SelectionSet
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
-		case "image":
-			out.Values[i] = ec._Character_image(ctx, field, obj)
+		case "faction":
+			out.Values[i] = ec._Character_faction(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
-		case "splashArt":
-			out.Values[i] = ec._Character_splashArt(ctx, field, obj)
+		case "rarity":
+			out.Values[i] = ec._Character_rarity(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "path":
+			out.Values[i] = ec._Character_path(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "combatType":
+			out.Values[i] = ec._Character_combatType(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "story":
+			out.Values[i] = ec._Character_story(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "stats":
+			out.Values[i] = ec._Character_stats(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "eidolons":
+			out.Values[i] = ec._Character_eidolons(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
+var eidolonImplementors = []string{"Eidolon"}
+
+func (ec *executionContext) _Eidolon(ctx context.Context, sel ast.SelectionSet, obj *model.Eidolon) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, eidolonImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("Eidolon")
+		case "index":
+			out.Values[i] = ec._Eidolon_index(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "image":
+			out.Values[i] = ec._Eidolon_image(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "title":
+			out.Values[i] = ec._Eidolon_title(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "description":
+			out.Values[i] = ec._Eidolon_description(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "logo":
+			out.Values[i] = ec._Eidolon_logo(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
+var materialImplementors = []string{"Material"}
+
+func (ec *executionContext) _Material(ctx context.Context, sel ast.SelectionSet, obj *model.Material) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, materialImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("Material")
+		case "name":
+			out.Values[i] = ec._Material_name(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "rarity":
+			out.Values[i] = ec._Material_rarity(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "type":
+			out.Values[i] = ec._Material_type(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "description":
+			out.Values[i] = ec._Material_description(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "story":
+			out.Values[i] = ec._Material_story(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
@@ -2659,6 +4823,13 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
+		case "addCharacter":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_addCharacter(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -2701,7 +4872,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 		switch field.Name {
 		case "__typename":
 			out.Values[i] = graphql.MarshalString("Query")
-		case "Character":
+		case "character":
 			field := field
 
 			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
@@ -2710,7 +4881,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 						ec.Error(ctx, ec.Recover(ctx, r))
 					}
 				}()
-				res = ec._Query_Character(ctx, field)
+				res = ec._Query_character(ctx, field)
 				if res == graphql.Null {
 					atomic.AddUint32(&fs.Invalids, 1)
 				}
@@ -2723,7 +4894,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 			}
 
 			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
-		case "Characters":
+		case "characters":
 			field := field
 
 			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
@@ -2732,7 +4903,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 						ec.Error(ctx, ec.Recover(ctx, r))
 					}
 				}()
-				res = ec._Query_Characters(ctx, field)
+				res = ec._Query_characters(ctx, field)
 				if res == graphql.Null {
 					atomic.AddUint32(&fs.Invalids, 1)
 				}
@@ -2753,6 +4924,90 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Query___schema(ctx, field)
 			})
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
+var statItemImplementors = []string{"StatItem"}
+
+func (ec *executionContext) _StatItem(ctx context.Context, sel ast.SelectionSet, obj *model.StatItem) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, statItemImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("StatItem")
+		case "level":
+			out.Values[i] = ec._StatItem_level(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "atk":
+			out.Values[i] = ec._StatItem_atk(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "def":
+			out.Values[i] = ec._StatItem_def(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "hp":
+			out.Values[i] = ec._StatItem_hp(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "spd":
+			out.Values[i] = ec._StatItem_spd(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "critRate":
+			out.Values[i] = ec._StatItem_critRate(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "critDamage":
+			out.Values[i] = ec._StatItem_critDamage(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "taunt":
+			out.Values[i] = ec._StatItem_taunt(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "enengy":
+			out.Values[i] = ec._StatItem_enengy(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "ascensionMaterials":
+			out.Values[i] = ec._StatItem_ascensionMaterials(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -3102,6 +5357,65 @@ func (ec *executionContext) ___Type(ctx context.Context, sel ast.SelectionSet, o
 
 // region    ***************************** type.gotpl *****************************
 
+func (ec *executionContext) marshalNAscensionMaterials2ᚕᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐAscensionMaterialsᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.AscensionMaterials) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNAscensionMaterials2ᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐAscensionMaterials(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
+}
+
+func (ec *executionContext) marshalNAscensionMaterials2ᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐAscensionMaterials(ctx context.Context, sel ast.SelectionSet, v *model.AscensionMaterials) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._AscensionMaterials(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalNAscensionMaterialsInput2ᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐAscensionMaterialsInput(ctx context.Context, v interface{}) (*model.AscensionMaterialsInput, error) {
+	res, err := ec.unmarshalInputAscensionMaterialsInput(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
 func (ec *executionContext) unmarshalNBoolean2bool(ctx context.Context, v interface{}) (bool, error) {
 	res, err := graphql.UnmarshalBoolean(v)
 	return res, graphql.ErrorOnPath(ctx, err)
@@ -3175,6 +5489,86 @@ func (ec *executionContext) marshalNCharacter2ᚖgithubᚗcomᚋsubrotokumarᚋs
 	return ec._Character(ctx, sel, v)
 }
 
+func (ec *executionContext) unmarshalNCombatType2githubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐCombatType(ctx context.Context, v interface{}) (model.CombatType, error) {
+	var res model.CombatType
+	err := res.UnmarshalGQL(v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalNCombatType2githubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐCombatType(ctx context.Context, sel ast.SelectionSet, v model.CombatType) graphql.Marshaler {
+	return v
+}
+
+func (ec *executionContext) marshalNEidolon2ᚕᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐEidolon(ctx context.Context, sel ast.SelectionSet, v []*model.Eidolon) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalOEidolon2ᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐEidolon(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	return ret
+}
+
+func (ec *executionContext) unmarshalNEidolonInput2ᚕᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐEidolonInput(ctx context.Context, v interface{}) ([]*model.EidolonInput, error) {
+	var vSlice []interface{}
+	if v != nil {
+		vSlice = graphql.CoerceList(v)
+	}
+	var err error
+	res := make([]*model.EidolonInput, len(vSlice))
+	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
+		res[i], err = ec.unmarshalOEidolonInput2ᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐEidolonInput(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
+}
+
+func (ec *executionContext) unmarshalNFloat2float64(ctx context.Context, v interface{}) (float64, error) {
+	res, err := graphql.UnmarshalFloatContext(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalNFloat2float64(ctx context.Context, sel ast.SelectionSet, v float64) graphql.Marshaler {
+	res := graphql.MarshalFloatContext(v)
+	if res == graphql.Null {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+	}
+	return graphql.WrapContextMarshaler(ctx, res)
+}
+
 func (ec *executionContext) unmarshalNInt2int(ctx context.Context, v interface{}) (int, error) {
 	res, err := graphql.UnmarshalInt(v)
 	return res, graphql.ErrorOnPath(ctx, err)
@@ -3190,6 +5584,107 @@ func (ec *executionContext) marshalNInt2int(ctx context.Context, sel ast.Selecti
 	return res
 }
 
+func (ec *executionContext) marshalNMaterial2ᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐMaterial(ctx context.Context, sel ast.SelectionSet, v *model.Material) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._Material(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalNMaterialInput2ᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐMaterialInput(ctx context.Context, v interface{}) (*model.MaterialInput, error) {
+	res, err := ec.unmarshalInputMaterialInput(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalNPath2githubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐPath(ctx context.Context, v interface{}) (model.Path, error) {
+	var res model.Path
+	err := res.UnmarshalGQL(v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalNPath2githubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐPath(ctx context.Context, sel ast.SelectionSet, v model.Path) graphql.Marshaler {
+	return v
+}
+
+func (ec *executionContext) marshalNStatItem2ᚕᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐStatItemᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.StatItem) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNStatItem2ᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐStatItem(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
+}
+
+func (ec *executionContext) marshalNStatItem2ᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐStatItem(ctx context.Context, sel ast.SelectionSet, v *model.StatItem) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._StatItem(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalNStatItemInput2ᚕᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐStatItemInputᚄ(ctx context.Context, v interface{}) ([]*model.StatItemInput, error) {
+	var vSlice []interface{}
+	if v != nil {
+		vSlice = graphql.CoerceList(v)
+	}
+	var err error
+	res := make([]*model.StatItemInput, len(vSlice))
+	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
+		res[i], err = ec.unmarshalNStatItemInput2ᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐStatItemInput(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
+}
+
+func (ec *executionContext) unmarshalNStatItemInput2ᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐStatItemInput(ctx context.Context, v interface{}) (*model.StatItemInput, error) {
+	res, err := ec.unmarshalInputStatItemInput(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
 func (ec *executionContext) unmarshalNString2string(ctx context.Context, v interface{}) (string, error) {
 	res, err := graphql.UnmarshalString(v)
 	return res, graphql.ErrorOnPath(ctx, err)
@@ -3203,6 +5698,38 @@ func (ec *executionContext) marshalNString2string(ctx context.Context, sel ast.S
 		}
 	}
 	return res
+}
+
+func (ec *executionContext) unmarshalNString2ᚕstringᚄ(ctx context.Context, v interface{}) ([]string, error) {
+	var vSlice []interface{}
+	if v != nil {
+		vSlice = graphql.CoerceList(v)
+	}
+	var err error
+	res := make([]string, len(vSlice))
+	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
+		res[i], err = ec.unmarshalNString2string(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
+}
+
+func (ec *executionContext) marshalNString2ᚕstringᚄ(ctx context.Context, sel ast.SelectionSet, v []string) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	for i := range v {
+		ret[i] = ec.marshalNString2string(ctx, sel, v[i])
+	}
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
 }
 
 func (ec *executionContext) marshalN__Directive2githubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐDirective(ctx context.Context, sel ast.SelectionSet, v introspection.Directive) graphql.Marshaler {
@@ -3458,6 +5985,26 @@ func (ec *executionContext) marshalN__TypeKind2string(ctx context.Context, sel a
 	return res
 }
 
+func (ec *executionContext) unmarshalOAscensionMaterialsInput2ᚕᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐAscensionMaterialsInputᚄ(ctx context.Context, v interface{}) ([]*model.AscensionMaterialsInput, error) {
+	if v == nil {
+		return nil, nil
+	}
+	var vSlice []interface{}
+	if v != nil {
+		vSlice = graphql.CoerceList(v)
+	}
+	var err error
+	res := make([]*model.AscensionMaterialsInput, len(vSlice))
+	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
+		res[i], err = ec.unmarshalNAscensionMaterialsInput2ᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐAscensionMaterialsInput(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
+}
+
 func (ec *executionContext) unmarshalOBoolean2bool(ctx context.Context, v interface{}) (bool, error) {
 	res, err := graphql.UnmarshalBoolean(v)
 	return res, graphql.ErrorOnPath(ctx, err)
@@ -3482,6 +6029,29 @@ func (ec *executionContext) marshalOBoolean2ᚖbool(ctx context.Context, sel ast
 	}
 	res := graphql.MarshalBoolean(*v)
 	return res
+}
+
+func (ec *executionContext) unmarshalOCharacterInput2ᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐCharacterInput(ctx context.Context, v interface{}) (*model.CharacterInput, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalInputCharacterInput(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalOEidolon2ᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐEidolon(ctx context.Context, sel ast.SelectionSet, v *model.Eidolon) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return ec._Eidolon(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalOEidolonInput2ᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐEidolonInput(ctx context.Context, v interface{}) (*model.EidolonInput, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalInputEidolonInput(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) unmarshalOString2ᚖstring(ctx context.Context, v interface{}) (*string, error) {

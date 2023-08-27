@@ -6,7 +6,6 @@ package graph
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/subrotokumar/stellerlink-backend/database"
 	"github.com/subrotokumar/stellerlink-backend/model"
@@ -14,7 +13,12 @@ import (
 
 // Hello is the resolver for the hello field.
 func (r *mutationResolver) Hello(ctx context.Context) (string, error) {
-	panic(fmt.Errorf("not implemented: Hello - hello"))
+	return "Hello World", nil
+}
+
+// AddCharacter is the resolver for the addCharacter field.
+func (r *mutationResolver) AddCharacter(ctx context.Context, input *model.CharacterInput) (*model.Character, error) {
+	return db.AddCharacter(input), nil
 }
 
 // Character is the resolver for the Character field.
@@ -42,4 +46,4 @@ type queryResolver struct{ *Resolver }
 //   - When renaming or deleting a resolver the old code will be put in here. You can safely delete
 //     it when you're done.
 //   - You have helper methods in this file. Move them out to keep these resolver files clean.
-var db = database.Connect()
+var db *database.DB = database.Connect()
