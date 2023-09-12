@@ -55,6 +55,7 @@ type ComplexityRoot struct {
 		Eidolons   func(childComplexity int) int
 		Faction    func(childComplexity int) int
 		ID         func(childComplexity int) int
+		Images     func(childComplexity int) int
 		Name       func(childComplexity int) int
 		Path       func(childComplexity int) int
 		Rarity     func(childComplexity int) int
@@ -68,6 +69,12 @@ type ComplexityRoot struct {
 		Index       func(childComplexity int) int
 		Logo        func(childComplexity int) int
 		Title       func(childComplexity int) int
+	}
+
+	Images struct {
+		Profile     func(childComplexity int) int
+		Splash      func(childComplexity int) int
+		Transparent func(childComplexity int) int
 	}
 
 	Material struct {
@@ -168,6 +175,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Character.ID(childComplexity), true
 
+	case "Character.images":
+		if e.complexity.Character.Images == nil {
+			break
+		}
+
+		return e.complexity.Character.Images(childComplexity), true
+
 	case "Character.name":
 		if e.complexity.Character.Name == nil {
 			break
@@ -237,6 +251,27 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Eidolon.Title(childComplexity), true
+
+	case "Images.profile":
+		if e.complexity.Images.Profile == nil {
+			break
+		}
+
+		return e.complexity.Images.Profile(childComplexity), true
+
+	case "Images.splash":
+		if e.complexity.Images.Splash == nil {
+			break
+		}
+
+		return e.complexity.Images.Splash(childComplexity), true
+
+	case "Images.transparent":
+		if e.complexity.Images.Transparent == nil {
+			break
+		}
+
+		return e.complexity.Images.Transparent(childComplexity), true
 
 	case "Material.description":
 		if e.complexity.Material.Description == nil {
@@ -392,6 +427,7 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 		ec.unmarshalInputAscensionMaterialsInput,
 		ec.unmarshalInputCharacterInput,
 		ec.unmarshalInputEidolonInput,
+		ec.unmarshalInputImageInput,
 		ec.unmarshalInputMaterialInput,
 		ec.unmarshalInputStatItemInput,
 	)
@@ -776,6 +812,55 @@ func (ec *executionContext) fieldContext_Character_name(ctx context.Context, fie
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Character_images(ctx context.Context, field graphql.CollectedField, obj *model.Character) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Character_images(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Images, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.Images)
+	fc.Result = res
+	return ec.marshalOImages2ᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐImages(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Character_images(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Character",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "profile":
+				return ec.fieldContext_Images_profile(ctx, field)
+			case "splash":
+				return ec.fieldContext_Images_splash(ctx, field)
+			case "transparent":
+				return ec.fieldContext_Images_transparent(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Images", field.Name)
 		},
 	}
 	return fc, nil
@@ -1343,6 +1428,135 @@ func (ec *executionContext) fieldContext_Eidolon_logo(ctx context.Context, field
 	return fc, nil
 }
 
+func (ec *executionContext) _Images_profile(ctx context.Context, field graphql.CollectedField, obj *model.Images) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Images_profile(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Profile, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Images_profile(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Images",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Images_splash(ctx context.Context, field graphql.CollectedField, obj *model.Images) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Images_splash(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Splash, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Images_splash(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Images",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Images_transparent(ctx context.Context, field graphql.CollectedField, obj *model.Images) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Images_transparent(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Transparent, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Images_transparent(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Images",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Material_name(ctx context.Context, field graphql.CollectedField, obj *model.Material) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Material_name(ctx, field)
 	if err != nil {
@@ -1650,6 +1864,8 @@ func (ec *executionContext) fieldContext_Mutation_addCharacter(ctx context.Conte
 				return ec.fieldContext_Character_id(ctx, field)
 			case "name":
 				return ec.fieldContext_Character_name(ctx, field)
+			case "images":
+				return ec.fieldContext_Character_images(ctx, field)
 			case "faction":
 				return ec.fieldContext_Character_faction(ctx, field)
 			case "rarity":
@@ -1725,6 +1941,8 @@ func (ec *executionContext) fieldContext_Query_character(ctx context.Context, fi
 				return ec.fieldContext_Character_id(ctx, field)
 			case "name":
 				return ec.fieldContext_Character_name(ctx, field)
+			case "images":
+				return ec.fieldContext_Character_images(ctx, field)
 			case "faction":
 				return ec.fieldContext_Character_faction(ctx, field)
 			case "rarity":
@@ -1800,6 +2018,8 @@ func (ec *executionContext) fieldContext_Query_characters(ctx context.Context, f
 				return ec.fieldContext_Character_id(ctx, field)
 			case "name":
 				return ec.fieldContext_Character_name(ctx, field)
+			case "images":
+				return ec.fieldContext_Character_images(ctx, field)
 			case "faction":
 				return ec.fieldContext_Character_faction(ctx, field)
 			case "rarity":
@@ -4214,7 +4434,7 @@ func (ec *executionContext) unmarshalInputCharacterInput(ctx context.Context, ob
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"id", "name", "faction", "rarity", "path", "combatType", "Story", "stats", "eidolons"}
+	fieldsInOrder := [...]string{"id", "name", "images", "faction", "rarity", "path", "combatType", "story", "stats", "eidolons"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -4239,6 +4459,15 @@ func (ec *executionContext) unmarshalInputCharacterInput(ctx context.Context, ob
 				return it, err
 			}
 			it.Name = data
+		case "images":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("images"))
+			data, err := ec.unmarshalOImageInput2ᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐImageInput(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Images = data
 		case "faction":
 			var err error
 
@@ -4275,10 +4504,10 @@ func (ec *executionContext) unmarshalInputCharacterInput(ctx context.Context, ob
 				return it, err
 			}
 			it.CombatType = data
-		case "Story":
+		case "story":
 			var err error
 
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Story"))
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("story"))
 			data, err := ec.unmarshalNString2string(ctx, v)
 			if err != nil {
 				return it, err
@@ -4373,6 +4602,53 @@ func (ec *executionContext) unmarshalInputEidolonInput(ctx context.Context, obj 
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputImageInput(ctx context.Context, obj interface{}) (model.ImageInput, error) {
+	var it model.ImageInput
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"splash", "profile", "transparent"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "splash":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("splash"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Splash = data
+		case "profile":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("profile"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Profile = data
+		case "transparent":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("transparent"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Transparent = data
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputMaterialInput(ctx context.Context, obj interface{}) (model.MaterialInput, error) {
 	var it model.MaterialInput
 	asMap := map[string]interface{}{}
@@ -4445,7 +4721,7 @@ func (ec *executionContext) unmarshalInputStatItemInput(ctx context.Context, obj
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"level", "atk", "def", "hp", "spd", "critRate", "critDamage", "taunt", "enengy", "ascensionMaterials"}
+	fieldsInOrder := [...]string{"level", "atk", "def", "hp", "spd", "critRate", "critDamage", "taunt", "energy", "ascensionMaterials"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -4524,15 +4800,15 @@ func (ec *executionContext) unmarshalInputStatItemInput(ctx context.Context, obj
 				return it, err
 			}
 			it.Taunt = data
-		case "enengy":
+		case "energy":
 			var err error
 
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("enengy"))
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("energy"))
 			data, err := ec.unmarshalNInt2int(ctx, v)
 			if err != nil {
 				return it, err
 			}
-			it.Enengy = data
+			it.Energy = data
 		case "ascensionMaterials":
 			var err error
 
@@ -4621,6 +4897,8 @@ func (ec *executionContext) _Character(ctx context.Context, sel ast.SelectionSet
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
+		case "images":
+			out.Values[i] = ec._Character_images(ctx, field, obj)
 		case "faction":
 			out.Values[i] = ec._Character_faction(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
@@ -4715,6 +4993,52 @@ func (ec *executionContext) _Eidolon(ctx context.Context, sel ast.SelectionSet, 
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
+var imagesImplementors = []string{"Images"}
+
+func (ec *executionContext) _Images(ctx context.Context, sel ast.SelectionSet, obj *model.Images) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, imagesImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("Images")
+		case "profile":
+			out.Values[i] = ec._Images_profile(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "splash":
+			out.Values[i] = ec._Images_splash(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "transparent":
+			out.Values[i] = ec._Images_transparent(ctx, field, obj)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -6052,6 +6376,21 @@ func (ec *executionContext) unmarshalOEidolonInput2ᚖgithubᚗcomᚋsubrotokuma
 	}
 	res, err := ec.unmarshalInputEidolonInput(ctx, v)
 	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalOImageInput2ᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐImageInput(ctx context.Context, v interface{}) (*model.ImageInput, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalInputImageInput(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalOImages2ᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐImages(ctx context.Context, sel ast.SelectionSet, v *model.Images) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return ec._Images(ctx, sel, v)
 }
 
 func (ec *executionContext) unmarshalOString2ᚖstring(ctx context.Context, v interface{}) (*string, error) {

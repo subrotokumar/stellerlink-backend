@@ -34,17 +34,19 @@ func main() {
 	port := os.Getenv("PORT")
 	app := gin.Default()
 
-	app.POST("/graphql", graphqlHandler())
-	app.GET("/", playgroundHandler())
+	app.POST("/graphql", graphqlHandler()) // GraphQL handler
+	app.GET("/", playgroundHandler())      // Graphql Playground
+
 	app.Use(middlewareAuth())
-	app.StaticFS("/images", http.Dir("assets/images"))
+	app.StaticFS("/images", http.Dir("assets")) // Static
+
 	fmt.Println("Playground started at http://localhost:" + port)
 	app.Run(":" + port)
 }
 
 func middlewareAuth() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		customHeader := c.Request.Header.Get("Auth")
+		customHeader := c.Request.Header.Get("Authorization")
 		auth := os.Getenv("Authorization")
 		if customHeader != auth {
 			c.JSON(http.StatusBadRequest, gin.H{

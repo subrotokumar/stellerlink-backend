@@ -20,8 +20,9 @@ type AscensionMaterialsInput struct {
 
 // Character Data
 type Character struct {
-	ID         int         `json:"id"`
-	Name       string      `json:"name"`
+	ID         int         `json:"id" bson:"id" unique:"true"`
+	Name       string      `json:"name" unique:"true"`
+	Images     *Images     `json:"images,omitempty"`
 	Faction    string      `json:"faction"`
 	Rarity     int         `json:"rarity"`
 	Path       Path        `json:"path"`
@@ -35,11 +36,12 @@ type Character struct {
 type CharacterInput struct {
 	ID         int              `json:"id"`
 	Name       string           `json:"name"`
+	Images     *ImageInput      `json:"images,omitempty"`
 	Faction    string           `json:"faction"`
 	Rarity     int              `json:"rarity"`
 	Path       Path             `json:"path"`
 	CombatType CombatType       `json:"combatType"`
-	Story      string           `json:"Story"`
+	Story      string           `json:"story"`
 	Stats      []*StatItemInput `json:"stats"`
 	Eidolons   []*EidolonInput  `json:"eidolons"`
 }
@@ -58,6 +60,18 @@ type EidolonInput struct {
 	Title       string `json:"title"`
 	Description string `json:"description"`
 	Logo        string `json:"logo"`
+}
+
+type ImageInput struct {
+	Splash      string `json:"splash"`
+	Profile     string `json:"profile"`
+	Transparent string `json:"transparent"`
+}
+
+type Images struct {
+	Profile     string  `json:"profile"`
+	Splash      string  `json:"splash"`
+	Transparent *string `json:"transparent,omitempty"`
 }
 
 type Material struct {
@@ -98,7 +112,7 @@ type StatItemInput struct {
 	CritRate           string                     `json:"critRate"`
 	CritDamage         string                     `json:"critDamage"`
 	Taunt              int                        `json:"taunt"`
-	Enengy             int                        `json:"enengy"`
+	Energy             int                        `json:"energy"`
 	AscensionMaterials []*AscensionMaterialsInput `json:"ascensionMaterials,omitempty"`
 }
 

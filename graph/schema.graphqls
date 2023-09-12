@@ -12,6 +12,7 @@ Character Data
 type Character {
   id: Int!
   name: String!
+  images: Images
   faction: String!
   rarity: Int!
   path: Path!
@@ -19,6 +20,12 @@ type Character {
   story: String!
   stats: [StatItem!]!
   eidolons: [Eidolon]!
+}
+
+type Images {
+  profile: String!
+  splash: String!
+  transparent: String
 }
 
 type StatItem {
@@ -61,13 +68,20 @@ Input Character
 input CharacterInput {
   id: Int!
   name: String!
+  images: ImageInput
   faction: String!
   rarity: Int!
   path: Path!
   combatType: CombatType!
-  Story: String!
+  story: String!
   stats: [StatItemInput!]!
   eidolons: [EidolonInput]!
+}
+
+input ImageInput {
+  splash: String!
+  profile: String!
+  transparent: String!
 }
 
 input StatItemInput {
@@ -79,8 +93,8 @@ input StatItemInput {
   critRate: String!
   critDamage: String!
   taunt: Int!
-  enengy: Int!
-  ascensionMaterials: [AscensionMaterialsInput!]
+  energy: Int!
+  ascensionMaterials: [AscensionMaterialsInput!]!
 }
 
 input AscensionMaterialsInput {
