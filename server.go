@@ -32,12 +32,16 @@ func playgroundHandler() gin.HandlerFunc {
 
 func main() {
 	port := os.Getenv("PORT")
+	mode := os.Getenv("MODE")
 	app := gin.Default()
 
 	app.POST("/graphql", graphqlHandler()) // GraphQL handler
 	app.GET("/", playgroundHandler())      // Graphql Playground
 
-	app.Use(middlewareAuth())
+	if mode != "development" {
+		app.Use(middlewareAuth())
+	}
+
 	app.StaticFS("/images", http.Dir("assets")) // Static
 
 	fmt.Println("Playground started at http://localhost:" + port)
