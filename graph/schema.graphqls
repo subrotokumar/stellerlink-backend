@@ -119,11 +119,35 @@ input EidolonInput {
 }
 
 """
+Relics
+"""
+type Relic {
+  id: Int!
+  concepts: String!
+  image: String!
+  type: RelicType!
+  head: RelicSet
+  hands: RelicSet
+  body: RelicSet
+  feet: RelicSet
+  planarSphere: RelicSet
+  linkRope: RelicSet
+  setEffect: String!
+}
+
+type RelicSet {
+  concepts: String!
+  image: String!
+}
+
+"""
 Query
 """
 type Query {
   character(id: Int!): Character!
   characters: [Character!]!
+  relic(id: Int!): Relic!
+  relics: [Relic!]!
 }
 
 """
@@ -158,4 +182,9 @@ enum CombatType {
   Wind
   Quantum
   Imaginary
+}
+
+enum RelicType {
+  CavernRelics
+  PlanarOrnaments
 }

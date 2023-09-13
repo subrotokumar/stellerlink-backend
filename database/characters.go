@@ -13,7 +13,7 @@ import (
 )
 
 func (db *DB) GetCharacter(id int) *model.Character {
-	characterCollection := db.client.Database(collectionName).Collection("characters")
+	characterCollection := db.client.Database(dbName).Collection("characters")
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 	log.Printf("Search for id %v", id)
@@ -37,7 +37,7 @@ func (db *DB) GetCharacter(id int) *model.Character {
 }
 
 func (db *DB) GetCharacters() []*model.Character {
-	characterCollection := db.client.Database(collectionName).Collection("characters")
+	characterCollection := db.client.Database(dbName).Collection("characters")
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 	var characters []*model.Character
@@ -55,7 +55,7 @@ func (db *DB) GetCharacters() []*model.Character {
 }
 
 func (db *DB) AddCharacter(input *model.CharacterInput) *model.Character {
-	characterCollection := db.client.Database(collectionName).Collection("characters")
+	characterCollection := db.client.Database(dbName).Collection("characters")
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 

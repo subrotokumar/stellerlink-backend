@@ -93,6 +93,27 @@ type ComplexityRoot struct {
 	Query struct {
 		Character  func(childComplexity int, id int) int
 		Characters func(childComplexity int) int
+		Relic      func(childComplexity int, id int) int
+		Relics     func(childComplexity int) int
+	}
+
+	Relic struct {
+		Body         func(childComplexity int) int
+		Concepts     func(childComplexity int) int
+		Feet         func(childComplexity int) int
+		Hands        func(childComplexity int) int
+		Head         func(childComplexity int) int
+		ID           func(childComplexity int) int
+		Image        func(childComplexity int) int
+		LinkRope     func(childComplexity int) int
+		PlanarSphere func(childComplexity int) int
+		SetEffect    func(childComplexity int) int
+		Type         func(childComplexity int) int
+	}
+
+	RelicSet struct {
+		Concepts func(childComplexity int) int
+		Image    func(childComplexity int) int
 	}
 
 	StatItem struct {
@@ -116,6 +137,8 @@ type MutationResolver interface {
 type QueryResolver interface {
 	Character(ctx context.Context, id int) (*model.Character, error)
 	Characters(ctx context.Context) ([]*model.Character, error)
+	Relic(ctx context.Context, id int) (*model.Relic, error)
+	Relics(ctx context.Context) ([]*model.Relic, error)
 }
 
 type executableSchema struct {
@@ -345,6 +368,116 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Query.Characters(childComplexity), true
+
+	case "Query.relic":
+		if e.complexity.Query.Relic == nil {
+			break
+		}
+
+		args, err := ec.field_Query_relic_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.Relic(childComplexity, args["id"].(int)), true
+
+	case "Query.relics":
+		if e.complexity.Query.Relics == nil {
+			break
+		}
+
+		return e.complexity.Query.Relics(childComplexity), true
+
+	case "Relic.body":
+		if e.complexity.Relic.Body == nil {
+			break
+		}
+
+		return e.complexity.Relic.Body(childComplexity), true
+
+	case "Relic.concepts":
+		if e.complexity.Relic.Concepts == nil {
+			break
+		}
+
+		return e.complexity.Relic.Concepts(childComplexity), true
+
+	case "Relic.feet":
+		if e.complexity.Relic.Feet == nil {
+			break
+		}
+
+		return e.complexity.Relic.Feet(childComplexity), true
+
+	case "Relic.hands":
+		if e.complexity.Relic.Hands == nil {
+			break
+		}
+
+		return e.complexity.Relic.Hands(childComplexity), true
+
+	case "Relic.head":
+		if e.complexity.Relic.Head == nil {
+			break
+		}
+
+		return e.complexity.Relic.Head(childComplexity), true
+
+	case "Relic.id":
+		if e.complexity.Relic.ID == nil {
+			break
+		}
+
+		return e.complexity.Relic.ID(childComplexity), true
+
+	case "Relic.image":
+		if e.complexity.Relic.Image == nil {
+			break
+		}
+
+		return e.complexity.Relic.Image(childComplexity), true
+
+	case "Relic.linkRope":
+		if e.complexity.Relic.LinkRope == nil {
+			break
+		}
+
+		return e.complexity.Relic.LinkRope(childComplexity), true
+
+	case "Relic.planarSphere":
+		if e.complexity.Relic.PlanarSphere == nil {
+			break
+		}
+
+		return e.complexity.Relic.PlanarSphere(childComplexity), true
+
+	case "Relic.setEffect":
+		if e.complexity.Relic.SetEffect == nil {
+			break
+		}
+
+		return e.complexity.Relic.SetEffect(childComplexity), true
+
+	case "Relic.type":
+		if e.complexity.Relic.Type == nil {
+			break
+		}
+
+		return e.complexity.Relic.Type(childComplexity), true
+
+	case "RelicSet.concepts":
+		if e.complexity.RelicSet.Concepts == nil {
+			break
+		}
+
+		return e.complexity.RelicSet.Concepts(childComplexity), true
+
+	case "RelicSet.image":
+		if e.complexity.RelicSet.Image == nil {
+			break
+		}
+
+		return e.complexity.RelicSet.Image(childComplexity), true
 
 	case "StatItem.ascensionMaterials":
 		if e.complexity.StatItem.AscensionMaterials == nil {
@@ -577,6 +710,21 @@ func (ec *executionContext) field_Query___type_args(ctx context.Context, rawArgs
 }
 
 func (ec *executionContext) field_Query_character_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 int
+	if tmp, ok := rawArgs["id"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+		arg0, err = ec.unmarshalNInt2int(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["id"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Query_relic_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
 	var arg0 int
@@ -2041,6 +2189,153 @@ func (ec *executionContext) fieldContext_Query_characters(ctx context.Context, f
 	return fc, nil
 }
 
+func (ec *executionContext) _Query_relic(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_relic(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().Relic(rctx, fc.Args["id"].(int))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Relic)
+	fc.Result = res
+	return ec.marshalNRelic2ᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐRelic(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_relic(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Relic_id(ctx, field)
+			case "concepts":
+				return ec.fieldContext_Relic_concepts(ctx, field)
+			case "image":
+				return ec.fieldContext_Relic_image(ctx, field)
+			case "type":
+				return ec.fieldContext_Relic_type(ctx, field)
+			case "head":
+				return ec.fieldContext_Relic_head(ctx, field)
+			case "hands":
+				return ec.fieldContext_Relic_hands(ctx, field)
+			case "body":
+				return ec.fieldContext_Relic_body(ctx, field)
+			case "feet":
+				return ec.fieldContext_Relic_feet(ctx, field)
+			case "planarSphere":
+				return ec.fieldContext_Relic_planarSphere(ctx, field)
+			case "linkRope":
+				return ec.fieldContext_Relic_linkRope(ctx, field)
+			case "setEffect":
+				return ec.fieldContext_Relic_setEffect(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Relic", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_relic_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_relics(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_relics(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().Relics(rctx)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.Relic)
+	fc.Result = res
+	return ec.marshalNRelic2ᚕᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐRelicᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_relics(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Relic_id(ctx, field)
+			case "concepts":
+				return ec.fieldContext_Relic_concepts(ctx, field)
+			case "image":
+				return ec.fieldContext_Relic_image(ctx, field)
+			case "type":
+				return ec.fieldContext_Relic_type(ctx, field)
+			case "head":
+				return ec.fieldContext_Relic_head(ctx, field)
+			case "hands":
+				return ec.fieldContext_Relic_hands(ctx, field)
+			case "body":
+				return ec.fieldContext_Relic_body(ctx, field)
+			case "feet":
+				return ec.fieldContext_Relic_feet(ctx, field)
+			case "planarSphere":
+				return ec.fieldContext_Relic_planarSphere(ctx, field)
+			case "linkRope":
+				return ec.fieldContext_Relic_linkRope(ctx, field)
+			case "setEffect":
+				return ec.fieldContext_Relic_setEffect(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Relic", field.Name)
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Query___type(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Query___type(ctx, field)
 	if err != nil {
@@ -2165,6 +2460,596 @@ func (ec *executionContext) fieldContext_Query___schema(ctx context.Context, fie
 				return ec.fieldContext___Schema_directives(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type __Schema", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Relic_id(ctx context.Context, field graphql.CollectedField, obj *model.Relic) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Relic_id(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Relic_id(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Relic",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Relic_concepts(ctx context.Context, field graphql.CollectedField, obj *model.Relic) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Relic_concepts(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Concepts, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Relic_concepts(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Relic",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Relic_image(ctx context.Context, field graphql.CollectedField, obj *model.Relic) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Relic_image(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Image, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Relic_image(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Relic",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Relic_type(ctx context.Context, field graphql.CollectedField, obj *model.Relic) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Relic_type(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Type, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(model.RelicType)
+	fc.Result = res
+	return ec.marshalNRelicType2githubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐRelicType(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Relic_type(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Relic",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type RelicType does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Relic_head(ctx context.Context, field graphql.CollectedField, obj *model.Relic) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Relic_head(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Head, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.RelicSet)
+	fc.Result = res
+	return ec.marshalORelicSet2ᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐRelicSet(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Relic_head(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Relic",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "concepts":
+				return ec.fieldContext_RelicSet_concepts(ctx, field)
+			case "image":
+				return ec.fieldContext_RelicSet_image(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type RelicSet", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Relic_hands(ctx context.Context, field graphql.CollectedField, obj *model.Relic) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Relic_hands(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Hands, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.RelicSet)
+	fc.Result = res
+	return ec.marshalORelicSet2ᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐRelicSet(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Relic_hands(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Relic",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "concepts":
+				return ec.fieldContext_RelicSet_concepts(ctx, field)
+			case "image":
+				return ec.fieldContext_RelicSet_image(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type RelicSet", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Relic_body(ctx context.Context, field graphql.CollectedField, obj *model.Relic) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Relic_body(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Body, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.RelicSet)
+	fc.Result = res
+	return ec.marshalORelicSet2ᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐRelicSet(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Relic_body(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Relic",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "concepts":
+				return ec.fieldContext_RelicSet_concepts(ctx, field)
+			case "image":
+				return ec.fieldContext_RelicSet_image(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type RelicSet", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Relic_feet(ctx context.Context, field graphql.CollectedField, obj *model.Relic) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Relic_feet(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Feet, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.RelicSet)
+	fc.Result = res
+	return ec.marshalORelicSet2ᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐRelicSet(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Relic_feet(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Relic",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "concepts":
+				return ec.fieldContext_RelicSet_concepts(ctx, field)
+			case "image":
+				return ec.fieldContext_RelicSet_image(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type RelicSet", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Relic_planarSphere(ctx context.Context, field graphql.CollectedField, obj *model.Relic) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Relic_planarSphere(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.PlanarSphere, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.RelicSet)
+	fc.Result = res
+	return ec.marshalORelicSet2ᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐRelicSet(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Relic_planarSphere(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Relic",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "concepts":
+				return ec.fieldContext_RelicSet_concepts(ctx, field)
+			case "image":
+				return ec.fieldContext_RelicSet_image(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type RelicSet", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Relic_linkRope(ctx context.Context, field graphql.CollectedField, obj *model.Relic) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Relic_linkRope(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.LinkRope, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.RelicSet)
+	fc.Result = res
+	return ec.marshalORelicSet2ᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐRelicSet(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Relic_linkRope(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Relic",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "concepts":
+				return ec.fieldContext_RelicSet_concepts(ctx, field)
+			case "image":
+				return ec.fieldContext_RelicSet_image(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type RelicSet", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Relic_setEffect(ctx context.Context, field graphql.CollectedField, obj *model.Relic) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Relic_setEffect(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.SetEffect, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Relic_setEffect(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Relic",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _RelicSet_concepts(ctx context.Context, field graphql.CollectedField, obj *model.RelicSet) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_RelicSet_concepts(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Concepts, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_RelicSet_concepts(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "RelicSet",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _RelicSet_image(ctx context.Context, field graphql.CollectedField, obj *model.RelicSet) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_RelicSet_image(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Image, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_RelicSet_image(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "RelicSet",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
 		},
 	}
 	return fc, nil
@@ -4813,7 +5698,7 @@ func (ec *executionContext) unmarshalInputStatItemInput(ctx context.Context, obj
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("ascensionMaterials"))
-			data, err := ec.unmarshalOAscensionMaterialsInput2ᚕᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐAscensionMaterialsInputᚄ(ctx, v)
+			data, err := ec.unmarshalNAscensionMaterialsInput2ᚕᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐAscensionMaterialsInputᚄ(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -5240,6 +6125,50 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 			}
 
 			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "relic":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_relic(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "relics":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_relics(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
 		case "__type":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Query___type(ctx, field)
@@ -5248,6 +6177,121 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Query___schema(ctx, field)
 			})
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
+var relicImplementors = []string{"Relic"}
+
+func (ec *executionContext) _Relic(ctx context.Context, sel ast.SelectionSet, obj *model.Relic) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, relicImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("Relic")
+		case "id":
+			out.Values[i] = ec._Relic_id(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "concepts":
+			out.Values[i] = ec._Relic_concepts(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "image":
+			out.Values[i] = ec._Relic_image(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "type":
+			out.Values[i] = ec._Relic_type(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "head":
+			out.Values[i] = ec._Relic_head(ctx, field, obj)
+		case "hands":
+			out.Values[i] = ec._Relic_hands(ctx, field, obj)
+		case "body":
+			out.Values[i] = ec._Relic_body(ctx, field, obj)
+		case "feet":
+			out.Values[i] = ec._Relic_feet(ctx, field, obj)
+		case "planarSphere":
+			out.Values[i] = ec._Relic_planarSphere(ctx, field, obj)
+		case "linkRope":
+			out.Values[i] = ec._Relic_linkRope(ctx, field, obj)
+		case "setEffect":
+			out.Values[i] = ec._Relic_setEffect(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
+var relicSetImplementors = []string{"RelicSet"}
+
+func (ec *executionContext) _RelicSet(ctx context.Context, sel ast.SelectionSet, obj *model.RelicSet) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, relicSetImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("RelicSet")
+		case "concepts":
+			out.Values[i] = ec._RelicSet_concepts(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "image":
+			out.Values[i] = ec._RelicSet_image(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -5735,6 +6779,23 @@ func (ec *executionContext) marshalNAscensionMaterials2ᚖgithubᚗcomᚋsubroto
 	return ec._AscensionMaterials(ctx, sel, v)
 }
 
+func (ec *executionContext) unmarshalNAscensionMaterialsInput2ᚕᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐAscensionMaterialsInputᚄ(ctx context.Context, v interface{}) ([]*model.AscensionMaterialsInput, error) {
+	var vSlice []interface{}
+	if v != nil {
+		vSlice = graphql.CoerceList(v)
+	}
+	var err error
+	res := make([]*model.AscensionMaterialsInput, len(vSlice))
+	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
+		res[i], err = ec.unmarshalNAscensionMaterialsInput2ᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐAscensionMaterialsInput(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
+}
+
 func (ec *executionContext) unmarshalNAscensionMaterialsInput2ᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐAscensionMaterialsInput(ctx context.Context, v interface{}) (*model.AscensionMaterialsInput, error) {
 	res, err := ec.unmarshalInputAscensionMaterialsInput(ctx, v)
 	return &res, graphql.ErrorOnPath(ctx, err)
@@ -5930,6 +6991,74 @@ func (ec *executionContext) unmarshalNPath2githubᚗcomᚋsubrotokumarᚋsteller
 }
 
 func (ec *executionContext) marshalNPath2githubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐPath(ctx context.Context, sel ast.SelectionSet, v model.Path) graphql.Marshaler {
+	return v
+}
+
+func (ec *executionContext) marshalNRelic2githubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐRelic(ctx context.Context, sel ast.SelectionSet, v model.Relic) graphql.Marshaler {
+	return ec._Relic(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNRelic2ᚕᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐRelicᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Relic) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNRelic2ᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐRelic(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
+}
+
+func (ec *executionContext) marshalNRelic2ᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐRelic(ctx context.Context, sel ast.SelectionSet, v *model.Relic) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._Relic(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalNRelicType2githubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐRelicType(ctx context.Context, v interface{}) (model.RelicType, error) {
+	var res model.RelicType
+	err := res.UnmarshalGQL(v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalNRelicType2githubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐRelicType(ctx context.Context, sel ast.SelectionSet, v model.RelicType) graphql.Marshaler {
 	return v
 }
 
@@ -6309,26 +7438,6 @@ func (ec *executionContext) marshalN__TypeKind2string(ctx context.Context, sel a
 	return res
 }
 
-func (ec *executionContext) unmarshalOAscensionMaterialsInput2ᚕᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐAscensionMaterialsInputᚄ(ctx context.Context, v interface{}) ([]*model.AscensionMaterialsInput, error) {
-	if v == nil {
-		return nil, nil
-	}
-	var vSlice []interface{}
-	if v != nil {
-		vSlice = graphql.CoerceList(v)
-	}
-	var err error
-	res := make([]*model.AscensionMaterialsInput, len(vSlice))
-	for i := range vSlice {
-		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
-		res[i], err = ec.unmarshalNAscensionMaterialsInput2ᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐAscensionMaterialsInput(ctx, vSlice[i])
-		if err != nil {
-			return nil, err
-		}
-	}
-	return res, nil
-}
-
 func (ec *executionContext) unmarshalOBoolean2bool(ctx context.Context, v interface{}) (bool, error) {
 	res, err := graphql.UnmarshalBoolean(v)
 	return res, graphql.ErrorOnPath(ctx, err)
@@ -6391,6 +7500,13 @@ func (ec *executionContext) marshalOImages2ᚖgithubᚗcomᚋsubrotokumarᚋstel
 		return graphql.Null
 	}
 	return ec._Images(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalORelicSet2ᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐRelicSet(ctx context.Context, sel ast.SelectionSet, v *model.RelicSet) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return ec._RelicSet(ctx, sel, v)
 }
 
 func (ec *executionContext) unmarshalOString2ᚖstring(ctx context.Context, v interface{}) (*string, error) {

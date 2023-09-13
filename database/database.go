@@ -14,7 +14,7 @@ type DB struct {
 	client *mongo.Client
 }
 
-var collectionName string = "stellerlink"
+var dbName string = "stellerlink"
 
 func Connect() *DB {
 	connectString := os.Getenv("ConnectionString")

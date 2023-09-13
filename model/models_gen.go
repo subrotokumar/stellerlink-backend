@@ -20,8 +20,8 @@ type AscensionMaterialsInput struct {
 
 // Character Data
 type Character struct {
-	ID         int         `json:"id" bson:"id" unique:"true"`
-	Name       string      `json:"name" unique:"true"`
+	ID         int         `json:"id"`
+	Name       string      `json:"name"`
 	Images     *Images     `json:"images,omitempty"`
 	Faction    string      `json:"faction"`
 	Rarity     int         `json:"rarity"`
@@ -90,6 +90,26 @@ type MaterialInput struct {
 	Story       string   `json:"story"`
 }
 
+// Relics
+type Relic struct {
+	ID           int       `json:"id" bson:"_id"`
+	Concepts     string    `json:"concepts"`
+	Image        string    `json:"image"`
+	Type         RelicType `json:"type"`
+	Head         *RelicSet `json:"head,omitempty"`
+	Hands        *RelicSet `json:"hands,omitempty"`
+	Body         *RelicSet `json:"body,omitempty"`
+	Feet         *RelicSet `json:"feet,omitempty"`
+	PlanarSphere *RelicSet `json:"planarSphere,omitempty"`
+	LinkRope     *RelicSet `json:"linkRope,omitempty"`
+	SetEffect    string    `json:"setEffect"`
+}
+
+type RelicSet struct {
+	Concepts string `json:"concepts"`
+	Image    string `json:"image"`
+}
+
 type StatItem struct {
 	Level              string                `json:"level"`
 	Atk                float64               `json:"atk"`
@@ -113,7 +133,7 @@ type StatItemInput struct {
 	CritDamage         string                     `json:"critDamage"`
 	Taunt              int                        `json:"taunt"`
 	Energy             int                        `json:"energy"`
-	AscensionMaterials []*AscensionMaterialsInput `json:"ascensionMaterials,omitempty"`
+	AscensionMaterials []*AscensionMaterialsInput `json:"ascensionMaterials"`
 }
 
 // Combat Types
@@ -217,5 +237,46 @@ func (e *Path) UnmarshalGQL(v interface{}) error {
 }
 
 func (e Path) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type RelicType string
+
+const (
+	RelicTypeCavernRelics    RelicType = "CavernRelics"
+	RelicTypePlanarOrnaments RelicType = "PlanarOrnaments"
+)
+
+var AllRelicType = []RelicType{
+	RelicTypeCavernRelics,
+	RelicTypePlanarOrnaments,
+}
+
+func (e RelicType) IsValid() bool {
+	switch e {
+	case RelicTypeCavernRelics, RelicTypePlanarOrnaments:
+		return true
+	}
+	return false
+}
+
+func (e RelicType) String() string {
+	return string(e)
+}
+
+func (e *RelicType) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = RelicType(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid RelicType", str)
+	}
+	return nil
+}
+
+func (e RelicType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }

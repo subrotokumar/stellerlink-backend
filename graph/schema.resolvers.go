@@ -31,6 +31,16 @@ func (r *queryResolver) Characters(ctx context.Context) ([]*model.Character, err
 	return db.GetCharacters(), nil
 }
 
+// Relic is the resolver for the relic field.
+func (r *queryResolver) Relic(ctx context.Context, id int) (*model.Relic, error) {
+	return db.GetRelic(id), nil
+}
+
+// Relics is the resolver for the relics field.
+func (r *queryResolver) Relics(ctx context.Context) ([]*model.Relic, error) {
+	return db.GetRelics(), nil
+}
+
 // Mutation returns MutationResolver implementation.
 func (r *Resolver) Mutation() MutationResolver { return &mutationResolver{r} }
 
