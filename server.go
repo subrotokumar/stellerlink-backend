@@ -38,11 +38,10 @@ func main() {
 	app.POST("/graphql", graphqlHandler()) // GraphQL handler
 	app.GET("/", playgroundHandler())      // Graphql Playground
 
-	if mode != "development" {
+	if mode == "production" {
 		app.Use(middlewareAuth())
+		app.StaticFS("/images", http.Dir("assets/images")) // Static
 	}
-
-	app.StaticFS("/images", http.Dir("assets")) // Static
 
 	fmt.Println("Playground started at http://localhost:" + port)
 	app.Run(":" + port)

@@ -138,6 +138,9 @@ type Relic {
 type RelicSet {
   concepts: String!
   image: String!
+  type: SetType!
+  description: String!
+  story: String!
 }
 
 """
@@ -187,4 +190,13 @@ enum CombatType {
 enum RelicType {
   CavernRelics
   PlanarOrnaments
+}
+
+enum SetType {
+  head
+  heads
+  body
+  feet
+  planarSphere
+  linkRope
 }

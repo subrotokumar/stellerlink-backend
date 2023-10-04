@@ -106,8 +106,11 @@ type Relic struct {
 }
 
 type RelicSet struct {
-	Concepts string `json:"concepts"`
-	Image    string `json:"image"`
+	Concepts    string  `json:"concepts"`
+	Image       string  `json:"image"`
+	Type        SetType `json:"type"`
+	Description string  `json:"description"`
+	Story       string  `json:"story"`
 }
 
 type StatItem struct {
@@ -278,5 +281,54 @@ func (e *RelicType) UnmarshalGQL(v interface{}) error {
 }
 
 func (e RelicType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type SetType string
+
+const (
+	SetTypeHead         SetType = "head"
+	SetTypeHeads        SetType = "heads"
+	SetTypeBody         SetType = "body"
+	SetTypeFeet         SetType = "feet"
+	SetTypePlanarSphere SetType = "planarSphere"
+	SetTypeLinkRope     SetType = "linkRope"
+)
+
+var AllSetType = []SetType{
+	SetTypeHead,
+	SetTypeHeads,
+	SetTypeBody,
+	SetTypeFeet,
+	SetTypePlanarSphere,
+	SetTypeLinkRope,
+}
+
+func (e SetType) IsValid() bool {
+	switch e {
+	case SetTypeHead, SetTypeHeads, SetTypeBody, SetTypeFeet, SetTypePlanarSphere, SetTypeLinkRope:
+		return true
+	}
+	return false
+}
+
+func (e SetType) String() string {
+	return string(e)
+}
+
+func (e *SetType) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = SetType(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid SetType", str)
+	}
+	return nil
+}
+
+func (e SetType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }

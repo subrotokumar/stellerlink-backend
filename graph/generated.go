@@ -112,8 +112,11 @@ type ComplexityRoot struct {
 	}
 
 	RelicSet struct {
-		Concepts func(childComplexity int) int
-		Image    func(childComplexity int) int
+		Concepts    func(childComplexity int) int
+		Description func(childComplexity int) int
+		Image       func(childComplexity int) int
+		Story       func(childComplexity int) int
+		Type        func(childComplexity int) int
 	}
 
 	StatItem struct {
@@ -472,12 +475,33 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.RelicSet.Concepts(childComplexity), true
 
+	case "RelicSet.description":
+		if e.complexity.RelicSet.Description == nil {
+			break
+		}
+
+		return e.complexity.RelicSet.Description(childComplexity), true
+
 	case "RelicSet.image":
 		if e.complexity.RelicSet.Image == nil {
 			break
 		}
 
 		return e.complexity.RelicSet.Image(childComplexity), true
+
+	case "RelicSet.story":
+		if e.complexity.RelicSet.Story == nil {
+			break
+		}
+
+		return e.complexity.RelicSet.Story(childComplexity), true
+
+	case "RelicSet.type":
+		if e.complexity.RelicSet.Type == nil {
+			break
+		}
+
+		return e.complexity.RelicSet.Type(childComplexity), true
 
 	case "StatItem.ascensionMaterials":
 		if e.complexity.StatItem.AscensionMaterials == nil {
@@ -2681,6 +2705,12 @@ func (ec *executionContext) fieldContext_Relic_head(ctx context.Context, field g
 				return ec.fieldContext_RelicSet_concepts(ctx, field)
 			case "image":
 				return ec.fieldContext_RelicSet_image(ctx, field)
+			case "type":
+				return ec.fieldContext_RelicSet_type(ctx, field)
+			case "description":
+				return ec.fieldContext_RelicSet_description(ctx, field)
+			case "story":
+				return ec.fieldContext_RelicSet_story(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type RelicSet", field.Name)
 		},
@@ -2728,6 +2758,12 @@ func (ec *executionContext) fieldContext_Relic_hands(ctx context.Context, field 
 				return ec.fieldContext_RelicSet_concepts(ctx, field)
 			case "image":
 				return ec.fieldContext_RelicSet_image(ctx, field)
+			case "type":
+				return ec.fieldContext_RelicSet_type(ctx, field)
+			case "description":
+				return ec.fieldContext_RelicSet_description(ctx, field)
+			case "story":
+				return ec.fieldContext_RelicSet_story(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type RelicSet", field.Name)
 		},
@@ -2775,6 +2811,12 @@ func (ec *executionContext) fieldContext_Relic_body(ctx context.Context, field g
 				return ec.fieldContext_RelicSet_concepts(ctx, field)
 			case "image":
 				return ec.fieldContext_RelicSet_image(ctx, field)
+			case "type":
+				return ec.fieldContext_RelicSet_type(ctx, field)
+			case "description":
+				return ec.fieldContext_RelicSet_description(ctx, field)
+			case "story":
+				return ec.fieldContext_RelicSet_story(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type RelicSet", field.Name)
 		},
@@ -2822,6 +2864,12 @@ func (ec *executionContext) fieldContext_Relic_feet(ctx context.Context, field g
 				return ec.fieldContext_RelicSet_concepts(ctx, field)
 			case "image":
 				return ec.fieldContext_RelicSet_image(ctx, field)
+			case "type":
+				return ec.fieldContext_RelicSet_type(ctx, field)
+			case "description":
+				return ec.fieldContext_RelicSet_description(ctx, field)
+			case "story":
+				return ec.fieldContext_RelicSet_story(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type RelicSet", field.Name)
 		},
@@ -2869,6 +2917,12 @@ func (ec *executionContext) fieldContext_Relic_planarSphere(ctx context.Context,
 				return ec.fieldContext_RelicSet_concepts(ctx, field)
 			case "image":
 				return ec.fieldContext_RelicSet_image(ctx, field)
+			case "type":
+				return ec.fieldContext_RelicSet_type(ctx, field)
+			case "description":
+				return ec.fieldContext_RelicSet_description(ctx, field)
+			case "story":
+				return ec.fieldContext_RelicSet_story(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type RelicSet", field.Name)
 		},
@@ -2916,6 +2970,12 @@ func (ec *executionContext) fieldContext_Relic_linkRope(ctx context.Context, fie
 				return ec.fieldContext_RelicSet_concepts(ctx, field)
 			case "image":
 				return ec.fieldContext_RelicSet_image(ctx, field)
+			case "type":
+				return ec.fieldContext_RelicSet_type(ctx, field)
+			case "description":
+				return ec.fieldContext_RelicSet_description(ctx, field)
+			case "story":
+				return ec.fieldContext_RelicSet_story(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type RelicSet", field.Name)
 		},
@@ -3043,6 +3103,138 @@ func (ec *executionContext) _RelicSet_image(ctx context.Context, field graphql.C
 }
 
 func (ec *executionContext) fieldContext_RelicSet_image(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "RelicSet",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _RelicSet_type(ctx context.Context, field graphql.CollectedField, obj *model.RelicSet) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_RelicSet_type(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Type, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(model.SetType)
+	fc.Result = res
+	return ec.marshalNSetType2githubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐSetType(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_RelicSet_type(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "RelicSet",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type SetType does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _RelicSet_description(ctx context.Context, field graphql.CollectedField, obj *model.RelicSet) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_RelicSet_description(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Description, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_RelicSet_description(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "RelicSet",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _RelicSet_story(ctx context.Context, field graphql.CollectedField, obj *model.RelicSet) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_RelicSet_story(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Story, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_RelicSet_story(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "RelicSet",
 		Field:      field,
@@ -6292,6 +6484,21 @@ func (ec *executionContext) _RelicSet(ctx context.Context, sel ast.SelectionSet,
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
+		case "type":
+			out.Values[i] = ec._RelicSet_type(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "description":
+			out.Values[i] = ec._RelicSet_description(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "story":
+			out.Values[i] = ec._RelicSet_story(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -7059,6 +7266,16 @@ func (ec *executionContext) unmarshalNRelicType2githubᚗcomᚋsubrotokumarᚋst
 }
 
 func (ec *executionContext) marshalNRelicType2githubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐRelicType(ctx context.Context, sel ast.SelectionSet, v model.RelicType) graphql.Marshaler {
+	return v
+}
+
+func (ec *executionContext) unmarshalNSetType2githubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐSetType(ctx context.Context, v interface{}) (model.SetType, error) {
+	var res model.SetType
+	err := res.UnmarshalGQL(v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalNSetType2githubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐSetType(ctx context.Context, sel ast.SelectionSet, v model.SetType) graphql.Marshaler {
 	return v
 }
 
