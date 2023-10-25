@@ -41,6 +41,16 @@ func (r *queryResolver) Relics(ctx context.Context) ([]*model.Relic, error) {
 	return db.GetRelics(), nil
 }
 
+// LightCone is the resolver for the lightCone field.
+func (r *queryResolver) LightCone(ctx context.Context, id int) (*model.LightCone, error) {
+	return db.GetLightCone(id), nil
+}
+
+// LightCones is the resolver for the lightCones field.
+func (r *queryResolver) LightCones(ctx context.Context) ([]*model.LightCone, error) {
+	return db.GetLightCones(), nil
+}
+
 // Mutation returns MutationResolver implementation.
 func (r *Resolver) Mutation() MutationResolver { return &mutationResolver{r} }
 
@@ -50,10 +60,4 @@ func (r *Resolver) Query() QueryResolver { return &queryResolver{r} }
 type mutationResolver struct{ *Resolver }
 type queryResolver struct{ *Resolver }
 
-// !!! WARNING !!!
-// The code below was going to be deleted when updating resolvers. It has been copied here so you have
-// one last chance to move it out of harms way if you want. There are two reasons this happens:
-//   - When renaming or deleting a resolver the old code will be put in here. You can safely delete
-//     it when you're done.
-//   - You have helper methods in this file. Move them out to keep these resolver files clean.
 var db *database.DB = database.Connect()

@@ -4,3 +4,4 @@ stellerlink-backend.*
 *.exe
 *.exe~
 scripts/
+app

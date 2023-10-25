@@ -74,6 +74,24 @@ type Images struct {
 	Transparent *string `json:"transparent,omitempty"`
 }
 
+// LightCones
+type LightCone struct {
+	ID          int                  `json:"id"`
+	Concepts    string               `json:"concepts"`
+	Rarity      int                  `json:"rarity"`
+	Path        Path                 `json:"path"`
+	Description string               `json:"description"`
+	SkillName   string               `json:"skill_name"`
+	Skill       string               `json:"skill"`
+	Story       string               `json:"story"`
+	Material    []*LightConeMaterial `json:"material"`
+}
+
+type LightConeMaterial struct {
+	Concepts string `json:"concepts"`
+	Quantity string `json:"quantity"`
+}
+
 type Material struct {
 	Name        string   `json:"name"`
 	Rarity      int      `json:"rarity"`
@@ -92,7 +110,7 @@ type MaterialInput struct {
 
 // Relics
 type Relic struct {
-	ID           int       `json:"id" bson:"_id"`
+	ID           int       `json:"id"`
 	Concepts     string    `json:"concepts"`
 	Image        string    `json:"image"`
 	Type         RelicType `json:"type"`

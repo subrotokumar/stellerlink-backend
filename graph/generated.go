@@ -77,6 +77,23 @@ type ComplexityRoot struct {
 		Transparent func(childComplexity int) int
 	}
 
+	LightCone struct {
+		Concepts    func(childComplexity int) int
+		Description func(childComplexity int) int
+		ID          func(childComplexity int) int
+		Material    func(childComplexity int) int
+		Path        func(childComplexity int) int
+		Rarity      func(childComplexity int) int
+		Skill       func(childComplexity int) int
+		SkillName   func(childComplexity int) int
+		Story       func(childComplexity int) int
+	}
+
+	LightConeMaterial struct {
+		Concepts func(childComplexity int) int
+		Quantity func(childComplexity int) int
+	}
+
 	Material struct {
 		Description func(childComplexity int) int
 		Name        func(childComplexity int) int
@@ -93,6 +110,8 @@ type ComplexityRoot struct {
 	Query struct {
 		Character  func(childComplexity int, id int) int
 		Characters func(childComplexity int) int
+		LightCone  func(childComplexity int, id int) int
+		LightCones func(childComplexity int) int
 		Relic      func(childComplexity int, id int) int
 		Relics     func(childComplexity int) int
 	}
@@ -142,6 +161,8 @@ type QueryResolver interface {
 	Characters(ctx context.Context) ([]*model.Character, error)
 	Relic(ctx context.Context, id int) (*model.Relic, error)
 	Relics(ctx context.Context) ([]*model.Relic, error)
+	LightCone(ctx context.Context, id int) (*model.LightCone, error)
+	LightCones(ctx context.Context) ([]*model.LightCone, error)
 }
 
 type executableSchema struct {
@@ -299,6 +320,83 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Images.Transparent(childComplexity), true
 
+	case "LightCone.concepts":
+		if e.complexity.LightCone.Concepts == nil {
+			break
+		}
+
+		return e.complexity.LightCone.Concepts(childComplexity), true
+
+	case "LightCone.description":
+		if e.complexity.LightCone.Description == nil {
+			break
+		}
+
+		return e.complexity.LightCone.Description(childComplexity), true
+
+	case "LightCone.id":
+		if e.complexity.LightCone.ID == nil {
+			break
+		}
+
+		return e.complexity.LightCone.ID(childComplexity), true
+
+	case "LightCone.material":
+		if e.complexity.LightCone.Material == nil {
+			break
+		}
+
+		return e.complexity.LightCone.Material(childComplexity), true
+
+	case "LightCone.path":
+		if e.complexity.LightCone.Path == nil {
+			break
+		}
+
+		return e.complexity.LightCone.Path(childComplexity), true
+
+	case "LightCone.rarity":
+		if e.complexity.LightCone.Rarity == nil {
+			break
+		}
+
+		return e.complexity.LightCone.Rarity(childComplexity), true
+
+	case "LightCone.skill":
+		if e.complexity.LightCone.Skill == nil {
+			break
+		}
+
+		return e.complexity.LightCone.Skill(childComplexity), true
+
+	case "LightCone.skill_name":
+		if e.complexity.LightCone.SkillName == nil {
+			break
+		}
+
+		return e.complexity.LightCone.SkillName(childComplexity), true
+
+	case "LightCone.story":
+		if e.complexity.LightCone.Story == nil {
+			break
+		}
+
+		return e.complexity.LightCone.Story(childComplexity), true
+
+	case "LightConeMaterial.concepts":
+		if e.complexity.LightConeMaterial.Concepts == nil {
+			break
+		}
+
+		return e.complexity.LightConeMaterial.Concepts(childComplexity), true
+
+	case "LightConeMaterial.quantity":
+		if e.complexity.LightConeMaterial.Quantity == nil {
+			break
+		}
+
+		return e.complexity.LightConeMaterial.Quantity(childComplexity), true
+
 	case "Material.description":
 		if e.complexity.Material.Description == nil {
 			break
@@ -371,6 +469,25 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Query.Characters(childComplexity), true
+
+	case "Query.lightCone":
+		if e.complexity.Query.LightCone == nil {
+			break
+		}
+
+		args, err := ec.field_Query_lightCone_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.LightCone(childComplexity, args["id"].(int)), true
+
+	case "Query.lightCones":
+		if e.complexity.Query.LightCones == nil {
+			break
+		}
+
+		return e.complexity.Query.LightCones(childComplexity), true
 
 	case "Query.relic":
 		if e.complexity.Query.Relic == nil {
@@ -734,6 +851,21 @@ func (ec *executionContext) field_Query___type_args(ctx context.Context, rawArgs
 }
 
 func (ec *executionContext) field_Query_character_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 int
+	if tmp, ok := rawArgs["id"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+		arg0, err = ec.unmarshalNInt2int(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["id"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Query_lightCone_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
 	var arg0 int
@@ -1729,6 +1861,496 @@ func (ec *executionContext) fieldContext_Images_transparent(ctx context.Context,
 	return fc, nil
 }
 
+func (ec *executionContext) _LightCone_id(ctx context.Context, field graphql.CollectedField, obj *model.LightCone) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LightCone_id(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_LightCone_id(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "LightCone",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _LightCone_concepts(ctx context.Context, field graphql.CollectedField, obj *model.LightCone) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LightCone_concepts(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Concepts, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_LightCone_concepts(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "LightCone",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _LightCone_rarity(ctx context.Context, field graphql.CollectedField, obj *model.LightCone) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LightCone_rarity(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Rarity, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_LightCone_rarity(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "LightCone",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _LightCone_path(ctx context.Context, field graphql.CollectedField, obj *model.LightCone) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LightCone_path(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Path, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(model.Path)
+	fc.Result = res
+	return ec.marshalNPath2githubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐPath(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_LightCone_path(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "LightCone",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Path does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _LightCone_description(ctx context.Context, field graphql.CollectedField, obj *model.LightCone) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LightCone_description(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Description, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_LightCone_description(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "LightCone",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _LightCone_skill_name(ctx context.Context, field graphql.CollectedField, obj *model.LightCone) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LightCone_skill_name(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.SkillName, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_LightCone_skill_name(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "LightCone",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _LightCone_skill(ctx context.Context, field graphql.CollectedField, obj *model.LightCone) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LightCone_skill(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Skill, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_LightCone_skill(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "LightCone",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _LightCone_story(ctx context.Context, field graphql.CollectedField, obj *model.LightCone) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LightCone_story(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Story, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_LightCone_story(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "LightCone",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _LightCone_material(ctx context.Context, field graphql.CollectedField, obj *model.LightCone) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LightCone_material(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Material, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.LightConeMaterial)
+	fc.Result = res
+	return ec.marshalNLightConeMaterial2ᚕᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐLightConeMaterial(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_LightCone_material(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "LightCone",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "concepts":
+				return ec.fieldContext_LightConeMaterial_concepts(ctx, field)
+			case "quantity":
+				return ec.fieldContext_LightConeMaterial_quantity(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type LightConeMaterial", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _LightConeMaterial_concepts(ctx context.Context, field graphql.CollectedField, obj *model.LightConeMaterial) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LightConeMaterial_concepts(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Concepts, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_LightConeMaterial_concepts(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "LightConeMaterial",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _LightConeMaterial_quantity(ctx context.Context, field graphql.CollectedField, obj *model.LightConeMaterial) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LightConeMaterial_quantity(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Quantity, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_LightConeMaterial_quantity(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "LightConeMaterial",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Material_name(ctx context.Context, field graphql.CollectedField, obj *model.Material) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Material_name(ctx, field)
 	if err != nil {
@@ -2091,14 +2713,11 @@ func (ec *executionContext) _Query_character(ctx context.Context, field graphql.
 		return graphql.Null
 	}
 	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
 		return graphql.Null
 	}
 	res := resTmp.(*model.Character)
 	fc.Result = res
-	return ec.marshalNCharacter2ᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐCharacter(ctx, field.Selections, res)
+	return ec.marshalOCharacter2ᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐCharacter(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_character(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -2234,14 +2853,11 @@ func (ec *executionContext) _Query_relic(ctx context.Context, field graphql.Coll
 		return graphql.Null
 	}
 	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
 		return graphql.Null
 	}
 	res := resTmp.(*model.Relic)
 	fc.Result = res
-	return ec.marshalNRelic2ᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐRelic(ctx, field.Selections, res)
+	return ec.marshalORelic2ᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐRelic(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_relic(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -2355,6 +2971,142 @@ func (ec *executionContext) fieldContext_Query_relics(ctx context.Context, field
 				return ec.fieldContext_Relic_setEffect(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type Relic", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_lightCone(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_lightCone(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().LightCone(rctx, fc.Args["id"].(int))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.LightCone)
+	fc.Result = res
+	return ec.marshalOLightCone2ᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐLightCone(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_lightCone(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_LightCone_id(ctx, field)
+			case "concepts":
+				return ec.fieldContext_LightCone_concepts(ctx, field)
+			case "rarity":
+				return ec.fieldContext_LightCone_rarity(ctx, field)
+			case "path":
+				return ec.fieldContext_LightCone_path(ctx, field)
+			case "description":
+				return ec.fieldContext_LightCone_description(ctx, field)
+			case "skill_name":
+				return ec.fieldContext_LightCone_skill_name(ctx, field)
+			case "skill":
+				return ec.fieldContext_LightCone_skill(ctx, field)
+			case "story":
+				return ec.fieldContext_LightCone_story(ctx, field)
+			case "material":
+				return ec.fieldContext_LightCone_material(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type LightCone", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_lightCone_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_lightCones(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_lightCones(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().LightCones(rctx)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.LightCone)
+	fc.Result = res
+	return ec.marshalNLightCone2ᚕᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐLightConeᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_lightCones(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_LightCone_id(ctx, field)
+			case "concepts":
+				return ec.fieldContext_LightCone_concepts(ctx, field)
+			case "rarity":
+				return ec.fieldContext_LightCone_rarity(ctx, field)
+			case "path":
+				return ec.fieldContext_LightCone_path(ctx, field)
+			case "description":
+				return ec.fieldContext_LightCone_description(ctx, field)
+			case "skill_name":
+				return ec.fieldContext_LightCone_skill_name(ctx, field)
+			case "skill":
+				return ec.fieldContext_LightCone_skill(ctx, field)
+			case "story":
+				return ec.fieldContext_LightCone_story(ctx, field)
+			case "material":
+				return ec.fieldContext_LightCone_material(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type LightCone", field.Name)
 		},
 	}
 	return fc, nil
@@ -6139,6 +6891,129 @@ func (ec *executionContext) _Images(ctx context.Context, sel ast.SelectionSet, o
 	return out
 }
 
+var lightConeImplementors = []string{"LightCone"}
+
+func (ec *executionContext) _LightCone(ctx context.Context, sel ast.SelectionSet, obj *model.LightCone) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, lightConeImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("LightCone")
+		case "id":
+			out.Values[i] = ec._LightCone_id(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "concepts":
+			out.Values[i] = ec._LightCone_concepts(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "rarity":
+			out.Values[i] = ec._LightCone_rarity(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "path":
+			out.Values[i] = ec._LightCone_path(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "description":
+			out.Values[i] = ec._LightCone_description(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "skill_name":
+			out.Values[i] = ec._LightCone_skill_name(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "skill":
+			out.Values[i] = ec._LightCone_skill(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "story":
+			out.Values[i] = ec._LightCone_story(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "material":
+			out.Values[i] = ec._LightCone_material(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
+var lightConeMaterialImplementors = []string{"LightConeMaterial"}
+
+func (ec *executionContext) _LightConeMaterial(ctx context.Context, sel ast.SelectionSet, obj *model.LightConeMaterial) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, lightConeMaterialImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("LightConeMaterial")
+		case "concepts":
+			out.Values[i] = ec._LightConeMaterial_concepts(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "quantity":
+			out.Values[i] = ec._LightConeMaterial_quantity(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
 var materialImplementors = []string{"Material"}
 
 func (ec *executionContext) _Material(ctx context.Context, sel ast.SelectionSet, obj *model.Material) graphql.Marshaler {
@@ -6283,9 +7158,6 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 					}
 				}()
 				res = ec._Query_character(ctx, field)
-				if res == graphql.Null {
-					atomic.AddUint32(&fs.Invalids, 1)
-				}
 				return res
 			}
 
@@ -6327,9 +7199,6 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 					}
 				}()
 				res = ec._Query_relic(ctx, field)
-				if res == graphql.Null {
-					atomic.AddUint32(&fs.Invalids, 1)
-				}
 				return res
 			}
 
@@ -6349,6 +7218,47 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 					}
 				}()
 				res = ec._Query_relics(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "lightCone":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_lightCone(ctx, field)
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "lightCones":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_lightCones(ctx, field)
 				if res == graphql.Null {
 					atomic.AddUint32(&fs.Invalids, 1)
 				}
@@ -7176,6 +8086,98 @@ func (ec *executionContext) marshalNInt2int(ctx context.Context, sel ast.Selecti
 	return res
 }
 
+func (ec *executionContext) marshalNLightCone2ᚕᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐLightConeᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.LightCone) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNLightCone2ᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐLightCone(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
+}
+
+func (ec *executionContext) marshalNLightCone2ᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐLightCone(ctx context.Context, sel ast.SelectionSet, v *model.LightCone) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._LightCone(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalNLightConeMaterial2ᚕᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐLightConeMaterial(ctx context.Context, sel ast.SelectionSet, v []*model.LightConeMaterial) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalOLightConeMaterial2ᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐLightConeMaterial(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	return ret
+}
+
 func (ec *executionContext) marshalNMaterial2ᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐMaterial(ctx context.Context, sel ast.SelectionSet, v *model.Material) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
@@ -7199,10 +8201,6 @@ func (ec *executionContext) unmarshalNPath2githubᚗcomᚋsubrotokumarᚋsteller
 
 func (ec *executionContext) marshalNPath2githubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐPath(ctx context.Context, sel ast.SelectionSet, v model.Path) graphql.Marshaler {
 	return v
-}
-
-func (ec *executionContext) marshalNRelic2githubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐRelic(ctx context.Context, sel ast.SelectionSet, v model.Relic) graphql.Marshaler {
-	return ec._Relic(ctx, sel, &v)
 }
 
 func (ec *executionContext) marshalNRelic2ᚕᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐRelicᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Relic) graphql.Marshaler {
@@ -7681,6 +8679,13 @@ func (ec *executionContext) marshalOBoolean2ᚖbool(ctx context.Context, sel ast
 	return res
 }
 
+func (ec *executionContext) marshalOCharacter2ᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐCharacter(ctx context.Context, sel ast.SelectionSet, v *model.Character) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return ec._Character(ctx, sel, v)
+}
+
 func (ec *executionContext) unmarshalOCharacterInput2ᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐCharacterInput(ctx context.Context, v interface{}) (*model.CharacterInput, error) {
 	if v == nil {
 		return nil, nil
@@ -7717,6 +8722,27 @@ func (ec *executionContext) marshalOImages2ᚖgithubᚗcomᚋsubrotokumarᚋstel
 		return graphql.Null
 	}
 	return ec._Images(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalOLightCone2ᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐLightCone(ctx context.Context, sel ast.SelectionSet, v *model.LightCone) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return ec._LightCone(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalOLightConeMaterial2ᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐLightConeMaterial(ctx context.Context, sel ast.SelectionSet, v *model.LightConeMaterial) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return ec._LightConeMaterial(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalORelic2ᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐRelic(ctx context.Context, sel ast.SelectionSet, v *model.Relic) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return ec._Relic(ctx, sel, v)
 }
 
 func (ec *executionContext) marshalORelicSet2ᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐRelicSet(ctx context.Context, sel ast.SelectionSet, v *model.RelicSet) graphql.Marshaler {

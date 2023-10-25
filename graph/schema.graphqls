@@ -144,13 +144,35 @@ type RelicSet {
 }
 
 """
+LightCones
+"""
+type LightCone {
+  id: Int!
+  concepts: String!
+  rarity: Int!
+  path: Path!
+  description: String!
+  skill_name: String!
+  skill: String!
+  story: String!
+  material: [LightConeMaterial]!
+}
+
+type LightConeMaterial {
+  concepts: String!
+  quantity: String!
+}
+
+"""
 Query
 """
 type Query {
-  character(id: Int!): Character!
+  character(id: Int!): Character
   characters: [Character!]!
-  relic(id: Int!): Relic!
+  relic(id: Int!): Relic
   relics: [Relic!]!
+  lightCone(id: Int!): LightCone
+  lightCones: [LightCone!]!
 }
 
 """

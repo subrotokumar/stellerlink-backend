@@ -32,13 +32,17 @@ func playgroundHandler() gin.HandlerFunc {
 
 func main() {
 	port := os.Getenv("PORT")
-	mode := os.Getenv("MODE")
+	release := os.Getenv("RELEASE") == "true"
+	if port == "" {
+		port = "8080"
+	}
+
 	app := gin.Default()
-
 	app.POST("/graphql", graphqlHandler()) // GraphQL handler
-	app.GET("/", playgroundHandler())      // Graphql Playground
-
-	if mode == "production" {
+	if !release {
+		app.GET("/", playgroundHandler()) // Graphql Playground
+	}
+	if release {
 		app.Use(middlewareAuth())
 		app.StaticFS("/images", http.Dir("assets/images")) // Static
 	}
@@ -52,7 +56,7 @@ func middlewareAuth() gin.HandlerFunc {
 		customHeader := c.Request.Header.Get("Authorization")
 		auth := os.Getenv("Authorization")
 		if customHeader != auth {
-			c.JSON(http.StatusBadRequest, gin.H{
+			c.JSON(http.StatusUnauthorized, gin.H{
 				"message": "Authorization failed",
 			})
 		}
