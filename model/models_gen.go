@@ -8,6 +8,21 @@ import (
 	"strconv"
 )
 
+type AscensionMaterial struct {
+	ID          int      `json:"id"`
+	Concepts    string   `json:"concepts"`
+	Rarity      int      `json:"rarity"`
+	Type        []string `json:"type"`
+	Description string   `json:"description"`
+	Story       string   `json:"story"`
+	Icon        string   `json:"icon"`
+}
+
+type AscensionMaterialWithQuantity struct {
+	Material *AscensionMaterial `json:"material"`
+	Quantity string             `json:"quantity"`
+}
+
 type AscensionMaterials struct {
 	Quantity int       `json:"quantity"`
 	Material *Material `json:"material"`
@@ -76,20 +91,17 @@ type Images struct {
 
 // LightCones
 type LightCone struct {
-	ID          int                  `json:"id"`
-	Concepts    string               `json:"concepts"`
-	Rarity      int                  `json:"rarity"`
-	Path        Path                 `json:"path"`
-	Description string               `json:"description"`
-	SkillName   string               `json:"skill_name"`
-	Skill       string               `json:"skill"`
-	Story       string               `json:"story"`
-	Material    []*LightConeMaterial `json:"material"`
-}
-
-type LightConeMaterial struct {
-	Concepts string `json:"concepts"`
-	Quantity string `json:"quantity"`
+	ID                 int                              `json:"id"`
+	Concepts           string                           `json:"concepts"`
+	Rarity             int                              `json:"rarity"`
+	Path               Path                             `json:"path"`
+	Description        string                           `json:"description"`
+	SkillName          string                           `json:"skill_name"`
+	Skill              string                           `json:"skill"`
+	Story              string                           `json:"story"`
+	AscensionMaterials []*AscensionMaterialWithQuantity `json:"ascensionMaterials"`
+	Icon               string                           `json:"icon"`
+	LargeIcon          string                           `json:"largeIcon"`
 }
 
 type Material struct {
@@ -157,7 +169,7 @@ type StatItemInput struct {
 	AscensionMaterials []*AscensionMaterialsInput `json:"ascensionMaterials"`
 }
 
-// Combat Types
+// An enum representing different combat types.
 type CombatType string
 
 const (
@@ -209,7 +221,7 @@ func (e CombatType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-// Path
+// An enum representing different paths.
 type Path string
 
 const (
@@ -261,6 +273,7 @@ func (e Path) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+// An enum representing different relic types.
 type RelicType string
 
 const (
@@ -302,6 +315,7 @@ func (e RelicType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+// An enum representing different set types.
 type SetType string
 
 const (

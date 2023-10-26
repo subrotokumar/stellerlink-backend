@@ -1,0 +1,31 @@
+"""
+LightCones
+"""
+type LightCone {
+  id: Int!
+  concepts: String!
+  rarity: Int!
+  path: Path!
+  description: String!
+  skill_name: String!
+  skill: String!
+  story: String!
+  ascensionMaterials: [AscensionMaterialWithQuantity]!
+  icon: String!
+  largeIcon: String!
+}
+
+type AscensionMaterialWithQuantity {
+  material: AscensionMaterial!
+  quantity: String!
+}
+
+type AscensionMaterial {
+  id: Int!
+  concepts: String!
+  rarity: Int!
+  type: [String!]!
+  description: String!
+  story: String!
+  icon: String!
+}

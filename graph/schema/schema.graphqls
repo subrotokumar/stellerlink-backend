@@ -1,0 +1,100 @@
+# GraphQL schema example
+#
+# This GraphQL schema defines types and operations related to a fictional world.
+# It includes queries to retrieve information about characters, relics, and light cones.
+
+"""
+Query type represents operations for retrieving data.
+"""
+type Query {
+  """
+  Get information about a character by their ID.
+  """
+  character(id: Int!): Character
+
+  """
+  Get a list of all characters.
+  """
+  characters: [Character!]!
+
+  """
+  Get information about a relic by its ID.
+  """
+  relic(id: Int!): Relic
+
+  """
+  Get a list of all relics.
+  """
+  relics: [Relic!]!
+
+  """
+  Get information about a light cone by its ID.
+  """
+  lightCone(id: Int!): LightCone
+
+  """
+  Get a list of all light cones.
+  """
+  lightCones: [LightCone!]!
+}
+
+"""
+Mutation type represents operations for modifying data.
+"""
+type Mutation {
+  """
+  A simple mutation that returns a greeting.
+  """
+  hello: String!
+
+  """
+  Add a new character with the provided input data.
+  """
+  addCharacter(input: CharacterInput): Character!
+}
+
+"""
+An enum representing different paths.
+"""
+enum Path {
+  Destruction
+  Hunt
+  Erudition
+  Harmony
+  Nihility
+  Preservation
+  Abundance
+}
+
+"""
+An enum representing different combat types.
+"""
+enum CombatType {
+  Physical
+  Fire
+  Ice
+  Lightning
+  Wind
+  Quantum
+  Imaginary
+}
+
+"""
+An enum representing different relic types.
+"""
+enum RelicType {
+  CavernRelics
+  PlanarOrnaments
+}
+
+"""
+An enum representing different set types.
+"""
+enum SetType {
+  head
+  heads
+  body
+  feet
+  planarSphere
+  linkRope
+}

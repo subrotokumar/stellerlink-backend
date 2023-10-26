@@ -11,7 +11,7 @@ import (
 )
 
 func (db *DB) GetLightCone(id int) *model.LightCone {
-	lightConesCoollection := db.client.Database(dbName).Collection("lightcones")
+	lightConesCoollection := db.client.Database(dbName).Collection(lightConeCollection)
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 	log.Printf("Search for id %v", id)

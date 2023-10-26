@@ -15,6 +15,8 @@ type DB struct {
 }
 
 var dbName string = "stellerlink"
+var CharacterCollections string = "characters"
+var lightConeCollection string = "lightcones"
 
 func Connect() *DB {
 	connectString := os.Getenv("ConnectionString")

@@ -1,0 +1,8 @@
+type AscensionMaterial {
+  id: Int!
+  concepts: String!
+  rarity: Int!
+  type: [String!]!
+  description: String!
+  story: String!
+}

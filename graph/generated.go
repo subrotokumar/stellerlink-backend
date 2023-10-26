@@ -45,6 +45,21 @@ type DirectiveRoot struct {
 }
 
 type ComplexityRoot struct {
+	AscensionMaterial struct {
+		Concepts    func(childComplexity int) int
+		Description func(childComplexity int) int
+		ID          func(childComplexity int) int
+		Icon        func(childComplexity int) int
+		Rarity      func(childComplexity int) int
+		Story       func(childComplexity int) int
+		Type        func(childComplexity int) int
+	}
+
+	AscensionMaterialWithQuantity struct {
+		Material func(childComplexity int) int
+		Quantity func(childComplexity int) int
+	}
+
 	AscensionMaterials struct {
 		Material func(childComplexity int) int
 		Quantity func(childComplexity int) int
@@ -78,20 +93,17 @@ type ComplexityRoot struct {
 	}
 
 	LightCone struct {
-		Concepts    func(childComplexity int) int
-		Description func(childComplexity int) int
-		ID          func(childComplexity int) int
-		Material    func(childComplexity int) int
-		Path        func(childComplexity int) int
-		Rarity      func(childComplexity int) int
-		Skill       func(childComplexity int) int
-		SkillName   func(childComplexity int) int
-		Story       func(childComplexity int) int
-	}
-
-	LightConeMaterial struct {
-		Concepts func(childComplexity int) int
-		Quantity func(childComplexity int) int
+		AscensionMaterials func(childComplexity int) int
+		Concepts           func(childComplexity int) int
+		Description        func(childComplexity int) int
+		ID                 func(childComplexity int) int
+		Icon               func(childComplexity int) int
+		LargeIcon          func(childComplexity int) int
+		Path               func(childComplexity int) int
+		Rarity             func(childComplexity int) int
+		Skill              func(childComplexity int) int
+		SkillName          func(childComplexity int) int
+		Story              func(childComplexity int) int
 	}
 
 	Material struct {
@@ -179,6 +191,69 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 	ec := executionContext{nil, e, 0, 0, nil}
 	_ = ec
 	switch typeName + "." + field {
+
+	case "AscensionMaterial.concepts":
+		if e.complexity.AscensionMaterial.Concepts == nil {
+			break
+		}
+
+		return e.complexity.AscensionMaterial.Concepts(childComplexity), true
+
+	case "AscensionMaterial.description":
+		if e.complexity.AscensionMaterial.Description == nil {
+			break
+		}
+
+		return e.complexity.AscensionMaterial.Description(childComplexity), true
+
+	case "AscensionMaterial.id":
+		if e.complexity.AscensionMaterial.ID == nil {
+			break
+		}
+
+		return e.complexity.AscensionMaterial.ID(childComplexity), true
+
+	case "AscensionMaterial.icon":
+		if e.complexity.AscensionMaterial.Icon == nil {
+			break
+		}
+
+		return e.complexity.AscensionMaterial.Icon(childComplexity), true
+
+	case "AscensionMaterial.rarity":
+		if e.complexity.AscensionMaterial.Rarity == nil {
+			break
+		}
+
+		return e.complexity.AscensionMaterial.Rarity(childComplexity), true
+
+	case "AscensionMaterial.story":
+		if e.complexity.AscensionMaterial.Story == nil {
+			break
+		}
+
+		return e.complexity.AscensionMaterial.Story(childComplexity), true
+
+	case "AscensionMaterial.type":
+		if e.complexity.AscensionMaterial.Type == nil {
+			break
+		}
+
+		return e.complexity.AscensionMaterial.Type(childComplexity), true
+
+	case "AscensionMaterialWithQuantity.material":
+		if e.complexity.AscensionMaterialWithQuantity.Material == nil {
+			break
+		}
+
+		return e.complexity.AscensionMaterialWithQuantity.Material(childComplexity), true
+
+	case "AscensionMaterialWithQuantity.quantity":
+		if e.complexity.AscensionMaterialWithQuantity.Quantity == nil {
+			break
+		}
+
+		return e.complexity.AscensionMaterialWithQuantity.Quantity(childComplexity), true
 
 	case "AscensionMaterials.material":
 		if e.complexity.AscensionMaterials.Material == nil {
@@ -320,6 +395,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Images.Transparent(childComplexity), true
 
+	case "LightCone.ascensionMaterials":
+		if e.complexity.LightCone.AscensionMaterials == nil {
+			break
+		}
+
+		return e.complexity.LightCone.AscensionMaterials(childComplexity), true
+
 	case "LightCone.concepts":
 		if e.complexity.LightCone.Concepts == nil {
 			break
@@ -341,12 +423,19 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.LightCone.ID(childComplexity), true
 
-	case "LightCone.material":
-		if e.complexity.LightCone.Material == nil {
+	case "LightCone.icon":
+		if e.complexity.LightCone.Icon == nil {
 			break
 		}
 
-		return e.complexity.LightCone.Material(childComplexity), true
+		return e.complexity.LightCone.Icon(childComplexity), true
+
+	case "LightCone.largeIcon":
+		if e.complexity.LightCone.LargeIcon == nil {
+			break
+		}
+
+		return e.complexity.LightCone.LargeIcon(childComplexity), true
 
 	case "LightCone.path":
 		if e.complexity.LightCone.Path == nil {
@@ -382,20 +471,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.LightCone.Story(childComplexity), true
-
-	case "LightConeMaterial.concepts":
-		if e.complexity.LightConeMaterial.Concepts == nil {
-			break
-		}
-
-		return e.complexity.LightConeMaterial.Concepts(childComplexity), true
-
-	case "LightConeMaterial.quantity":
-		if e.complexity.LightConeMaterial.Quantity == nil {
-			break
-		}
-
-		return e.complexity.LightConeMaterial.Quantity(childComplexity), true
 
 	case "Material.description":
 		if e.complexity.Material.Description == nil {
@@ -800,7 +875,7 @@ func (ec *executionContext) introspectType(name string) (*introspection.Type, er
 	return introspection.WrapTypeFromDef(parsedSchema, parsedSchema.Types[name]), nil
 }
 
-//go:embed "schema.graphqls"
+//go:embed "schema/character.graphqls" "schema/lightcone.graphqls" "schema/relic.graphqls" "schema/schema.graphqls"
 var sourcesFS embed.FS
 
 func sourceData(filename string) string {
@@ -812,7 +887,10 @@ func sourceData(filename string) string {
 }
 
 var sources = []*ast.Source{
-	{Name: "schema.graphqls", Input: sourceData("schema.graphqls"), BuiltIn: false},
+	{Name: "schema/character.graphqls", Input: sourceData("schema/character.graphqls"), BuiltIn: false},
+	{Name: "schema/lightcone.graphqls", Input: sourceData("schema/lightcone.graphqls"), BuiltIn: false},
+	{Name: "schema/relic.graphqls", Input: sourceData("schema/relic.graphqls"), BuiltIn: false},
+	{Name: "schema/schema.graphqls", Input: sourceData("schema/schema.graphqls"), BuiltIn: false},
 }
 var parsedSchema = gqlparser.MustLoadSchema(sources...)
 
@@ -932,6 +1010,418 @@ func (ec *executionContext) field___Type_fields_args(ctx context.Context, rawArg
 // endregion ************************** directives.gotpl **************************
 
 // region    **************************** field.gotpl *****************************
+
+func (ec *executionContext) _AscensionMaterial_id(ctx context.Context, field graphql.CollectedField, obj *model.AscensionMaterial) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_AscensionMaterial_id(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_AscensionMaterial_id(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "AscensionMaterial",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _AscensionMaterial_concepts(ctx context.Context, field graphql.CollectedField, obj *model.AscensionMaterial) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_AscensionMaterial_concepts(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Concepts, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_AscensionMaterial_concepts(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "AscensionMaterial",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _AscensionMaterial_rarity(ctx context.Context, field graphql.CollectedField, obj *model.AscensionMaterial) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_AscensionMaterial_rarity(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Rarity, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_AscensionMaterial_rarity(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "AscensionMaterial",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _AscensionMaterial_type(ctx context.Context, field graphql.CollectedField, obj *model.AscensionMaterial) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_AscensionMaterial_type(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Type, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]string)
+	fc.Result = res
+	return ec.marshalNString2ᚕstringᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_AscensionMaterial_type(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "AscensionMaterial",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _AscensionMaterial_description(ctx context.Context, field graphql.CollectedField, obj *model.AscensionMaterial) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_AscensionMaterial_description(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Description, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_AscensionMaterial_description(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "AscensionMaterial",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _AscensionMaterial_story(ctx context.Context, field graphql.CollectedField, obj *model.AscensionMaterial) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_AscensionMaterial_story(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Story, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_AscensionMaterial_story(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "AscensionMaterial",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _AscensionMaterial_icon(ctx context.Context, field graphql.CollectedField, obj *model.AscensionMaterial) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_AscensionMaterial_icon(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Icon, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_AscensionMaterial_icon(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "AscensionMaterial",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _AscensionMaterialWithQuantity_material(ctx context.Context, field graphql.CollectedField, obj *model.AscensionMaterialWithQuantity) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_AscensionMaterialWithQuantity_material(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Material, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.AscensionMaterial)
+	fc.Result = res
+	return ec.marshalNAscensionMaterial2ᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐAscensionMaterial(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_AscensionMaterialWithQuantity_material(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "AscensionMaterialWithQuantity",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_AscensionMaterial_id(ctx, field)
+			case "concepts":
+				return ec.fieldContext_AscensionMaterial_concepts(ctx, field)
+			case "rarity":
+				return ec.fieldContext_AscensionMaterial_rarity(ctx, field)
+			case "type":
+				return ec.fieldContext_AscensionMaterial_type(ctx, field)
+			case "description":
+				return ec.fieldContext_AscensionMaterial_description(ctx, field)
+			case "story":
+				return ec.fieldContext_AscensionMaterial_story(ctx, field)
+			case "icon":
+				return ec.fieldContext_AscensionMaterial_icon(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type AscensionMaterial", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _AscensionMaterialWithQuantity_quantity(ctx context.Context, field graphql.CollectedField, obj *model.AscensionMaterialWithQuantity) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_AscensionMaterialWithQuantity_quantity(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Quantity, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_AscensionMaterialWithQuantity_quantity(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "AscensionMaterialWithQuantity",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
 
 func (ec *executionContext) _AscensionMaterials_quantity(ctx context.Context, field graphql.CollectedField, obj *model.AscensionMaterials) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_AscensionMaterials_quantity(ctx, field)
@@ -2213,8 +2703,8 @@ func (ec *executionContext) fieldContext_LightCone_story(ctx context.Context, fi
 	return fc, nil
 }
 
-func (ec *executionContext) _LightCone_material(ctx context.Context, field graphql.CollectedField, obj *model.LightCone) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_LightCone_material(ctx, field)
+func (ec *executionContext) _LightCone_ascensionMaterials(ctx context.Context, field graphql.CollectedField, obj *model.LightCone) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LightCone_ascensionMaterials(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -2227,7 +2717,7 @@ func (ec *executionContext) _LightCone_material(ctx context.Context, field graph
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.Material, nil
+		return obj.AscensionMaterials, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -2239,12 +2729,12 @@ func (ec *executionContext) _LightCone_material(ctx context.Context, field graph
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]*model.LightConeMaterial)
+	res := resTmp.([]*model.AscensionMaterialWithQuantity)
 	fc.Result = res
-	return ec.marshalNLightConeMaterial2ᚕᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐLightConeMaterial(ctx, field.Selections, res)
+	return ec.marshalNAscensionMaterialWithQuantity2ᚕᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐAscensionMaterialWithQuantity(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_LightCone_material(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_LightCone_ascensionMaterials(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "LightCone",
 		Field:      field,
@@ -2252,19 +2742,19 @@ func (ec *executionContext) fieldContext_LightCone_material(ctx context.Context,
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
-			case "concepts":
-				return ec.fieldContext_LightConeMaterial_concepts(ctx, field)
+			case "material":
+				return ec.fieldContext_AscensionMaterialWithQuantity_material(ctx, field)
 			case "quantity":
-				return ec.fieldContext_LightConeMaterial_quantity(ctx, field)
+				return ec.fieldContext_AscensionMaterialWithQuantity_quantity(ctx, field)
 			}
-			return nil, fmt.Errorf("no field named %q was found under type LightConeMaterial", field.Name)
+			return nil, fmt.Errorf("no field named %q was found under type AscensionMaterialWithQuantity", field.Name)
 		},
 	}
 	return fc, nil
 }
 
-func (ec *executionContext) _LightConeMaterial_concepts(ctx context.Context, field graphql.CollectedField, obj *model.LightConeMaterial) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_LightConeMaterial_concepts(ctx, field)
+func (ec *executionContext) _LightCone_icon(ctx context.Context, field graphql.CollectedField, obj *model.LightCone) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LightCone_icon(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -2277,7 +2767,7 @@ func (ec *executionContext) _LightConeMaterial_concepts(ctx context.Context, fie
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.Concepts, nil
+		return obj.Icon, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -2294,9 +2784,9 @@ func (ec *executionContext) _LightConeMaterial_concepts(ctx context.Context, fie
 	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_LightConeMaterial_concepts(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_LightCone_icon(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
-		Object:     "LightConeMaterial",
+		Object:     "LightCone",
 		Field:      field,
 		IsMethod:   false,
 		IsResolver: false,
@@ -2307,8 +2797,8 @@ func (ec *executionContext) fieldContext_LightConeMaterial_concepts(ctx context.
 	return fc, nil
 }
 
-func (ec *executionContext) _LightConeMaterial_quantity(ctx context.Context, field graphql.CollectedField, obj *model.LightConeMaterial) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_LightConeMaterial_quantity(ctx, field)
+func (ec *executionContext) _LightCone_largeIcon(ctx context.Context, field graphql.CollectedField, obj *model.LightCone) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LightCone_largeIcon(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -2321,7 +2811,7 @@ func (ec *executionContext) _LightConeMaterial_quantity(ctx context.Context, fie
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.Quantity, nil
+		return obj.LargeIcon, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -2338,9 +2828,9 @@ func (ec *executionContext) _LightConeMaterial_quantity(ctx context.Context, fie
 	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_LightConeMaterial_quantity(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_LightCone_largeIcon(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
-		Object:     "LightConeMaterial",
+		Object:     "LightCone",
 		Field:      field,
 		IsMethod:   false,
 		IsResolver: false,
@@ -3028,8 +3518,12 @@ func (ec *executionContext) fieldContext_Query_lightCone(ctx context.Context, fi
 				return ec.fieldContext_LightCone_skill(ctx, field)
 			case "story":
 				return ec.fieldContext_LightCone_story(ctx, field)
-			case "material":
-				return ec.fieldContext_LightCone_material(ctx, field)
+			case "ascensionMaterials":
+				return ec.fieldContext_LightCone_ascensionMaterials(ctx, field)
+			case "icon":
+				return ec.fieldContext_LightCone_icon(ctx, field)
+			case "largeIcon":
+				return ec.fieldContext_LightCone_largeIcon(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type LightCone", field.Name)
 		},
@@ -3103,8 +3597,12 @@ func (ec *executionContext) fieldContext_Query_lightCones(ctx context.Context, f
 				return ec.fieldContext_LightCone_skill(ctx, field)
 			case "story":
 				return ec.fieldContext_LightCone_story(ctx, field)
-			case "material":
-				return ec.fieldContext_LightCone_material(ctx, field)
+			case "ascensionMaterials":
+				return ec.fieldContext_LightCone_ascensionMaterials(ctx, field)
+			case "icon":
+				return ec.fieldContext_LightCone_icon(ctx, field)
+			case "largeIcon":
+				return ec.fieldContext_LightCone_largeIcon(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type LightCone", field.Name)
 		},
@@ -6661,6 +7159,119 @@ func (ec *executionContext) unmarshalInputStatItemInput(ctx context.Context, obj
 
 // region    **************************** object.gotpl ****************************
 
+var ascensionMaterialImplementors = []string{"AscensionMaterial"}
+
+func (ec *executionContext) _AscensionMaterial(ctx context.Context, sel ast.SelectionSet, obj *model.AscensionMaterial) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, ascensionMaterialImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("AscensionMaterial")
+		case "id":
+			out.Values[i] = ec._AscensionMaterial_id(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "concepts":
+			out.Values[i] = ec._AscensionMaterial_concepts(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "rarity":
+			out.Values[i] = ec._AscensionMaterial_rarity(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "type":
+			out.Values[i] = ec._AscensionMaterial_type(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "description":
+			out.Values[i] = ec._AscensionMaterial_description(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "story":
+			out.Values[i] = ec._AscensionMaterial_story(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "icon":
+			out.Values[i] = ec._AscensionMaterial_icon(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
+var ascensionMaterialWithQuantityImplementors = []string{"AscensionMaterialWithQuantity"}
+
+func (ec *executionContext) _AscensionMaterialWithQuantity(ctx context.Context, sel ast.SelectionSet, obj *model.AscensionMaterialWithQuantity) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, ascensionMaterialWithQuantityImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("AscensionMaterialWithQuantity")
+		case "material":
+			out.Values[i] = ec._AscensionMaterialWithQuantity_material(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "quantity":
+			out.Values[i] = ec._AscensionMaterialWithQuantity_quantity(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
 var ascensionMaterialsImplementors = []string{"AscensionMaterials"}
 
 func (ec *executionContext) _AscensionMaterials(ctx context.Context, sel ast.SelectionSet, obj *model.AscensionMaterials) graphql.Marshaler {
@@ -6942,52 +7553,18 @@ func (ec *executionContext) _LightCone(ctx context.Context, sel ast.SelectionSet
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
-		case "material":
-			out.Values[i] = ec._LightCone_material(ctx, field, obj)
+		case "ascensionMaterials":
+			out.Values[i] = ec._LightCone_ascensionMaterials(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
-		default:
-			panic("unknown field " + strconv.Quote(field.Name))
-		}
-	}
-	out.Dispatch(ctx)
-	if out.Invalids > 0 {
-		return graphql.Null
-	}
-
-	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
-
-	for label, dfs := range deferred {
-		ec.processDeferredGroup(graphql.DeferredGroup{
-			Label:    label,
-			Path:     graphql.GetPath(ctx),
-			FieldSet: dfs,
-			Context:  ctx,
-		})
-	}
-
-	return out
-}
-
-var lightConeMaterialImplementors = []string{"LightConeMaterial"}
-
-func (ec *executionContext) _LightConeMaterial(ctx context.Context, sel ast.SelectionSet, obj *model.LightConeMaterial) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, lightConeMaterialImplementors)
-
-	out := graphql.NewFieldSet(fields)
-	deferred := make(map[string]*graphql.FieldSet)
-	for i, field := range fields {
-		switch field.Name {
-		case "__typename":
-			out.Values[i] = graphql.MarshalString("LightConeMaterial")
-		case "concepts":
-			out.Values[i] = ec._LightConeMaterial_concepts(ctx, field, obj)
+		case "icon":
+			out.Values[i] = ec._LightCone_icon(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
-		case "quantity":
-			out.Values[i] = ec._LightConeMaterial_quantity(ctx, field, obj)
+		case "largeIcon":
+			out.Values[i] = ec._LightCone_largeIcon(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
@@ -7842,6 +8419,54 @@ func (ec *executionContext) ___Type(ctx context.Context, sel ast.SelectionSet, o
 
 // region    ***************************** type.gotpl *****************************
 
+func (ec *executionContext) marshalNAscensionMaterial2ᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐAscensionMaterial(ctx context.Context, sel ast.SelectionSet, v *model.AscensionMaterial) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._AscensionMaterial(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalNAscensionMaterialWithQuantity2ᚕᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐAscensionMaterialWithQuantity(ctx context.Context, sel ast.SelectionSet, v []*model.AscensionMaterialWithQuantity) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalOAscensionMaterialWithQuantity2ᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐAscensionMaterialWithQuantity(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	return ret
+}
+
 func (ec *executionContext) marshalNAscensionMaterials2ᚕᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐAscensionMaterialsᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.AscensionMaterials) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
@@ -8138,44 +8763,6 @@ func (ec *executionContext) marshalNLightCone2ᚖgithubᚗcomᚋsubrotokumarᚋs
 		return graphql.Null
 	}
 	return ec._LightCone(ctx, sel, v)
-}
-
-func (ec *executionContext) marshalNLightConeMaterial2ᚕᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐLightConeMaterial(ctx context.Context, sel ast.SelectionSet, v []*model.LightConeMaterial) graphql.Marshaler {
-	ret := make(graphql.Array, len(v))
-	var wg sync.WaitGroup
-	isLen1 := len(v) == 1
-	if !isLen1 {
-		wg.Add(len(v))
-	}
-	for i := range v {
-		i := i
-		fc := &graphql.FieldContext{
-			Index:  &i,
-			Result: &v[i],
-		}
-		ctx := graphql.WithFieldContext(ctx, fc)
-		f := func(i int) {
-			defer func() {
-				if r := recover(); r != nil {
-					ec.Error(ctx, ec.Recover(ctx, r))
-					ret = nil
-				}
-			}()
-			if !isLen1 {
-				defer wg.Done()
-			}
-			ret[i] = ec.marshalOLightConeMaterial2ᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐLightConeMaterial(ctx, sel, v[i])
-		}
-		if isLen1 {
-			f(i)
-		} else {
-			go f(i)
-		}
-
-	}
-	wg.Wait()
-
-	return ret
 }
 
 func (ec *executionContext) marshalNMaterial2ᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐMaterial(ctx context.Context, sel ast.SelectionSet, v *model.Material) graphql.Marshaler {
@@ -8653,6 +9240,13 @@ func (ec *executionContext) marshalN__TypeKind2string(ctx context.Context, sel a
 	return res
 }
 
+func (ec *executionContext) marshalOAscensionMaterialWithQuantity2ᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐAscensionMaterialWithQuantity(ctx context.Context, sel ast.SelectionSet, v *model.AscensionMaterialWithQuantity) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return ec._AscensionMaterialWithQuantity(ctx, sel, v)
+}
+
 func (ec *executionContext) unmarshalOBoolean2bool(ctx context.Context, v interface{}) (bool, error) {
 	res, err := graphql.UnmarshalBoolean(v)
 	return res, graphql.ErrorOnPath(ctx, err)
@@ -8729,13 +9323,6 @@ func (ec *executionContext) marshalOLightCone2ᚖgithubᚗcomᚋsubrotokumarᚋs
 		return graphql.Null
 	}
 	return ec._LightCone(ctx, sel, v)
-}
-
-func (ec *executionContext) marshalOLightConeMaterial2ᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐLightConeMaterial(ctx context.Context, sel ast.SelectionSet, v *model.LightConeMaterial) graphql.Marshaler {
-	if v == nil {
-		return graphql.Null
-	}
-	return ec._LightConeMaterial(ctx, sel, v)
 }
 
 func (ec *executionContext) marshalORelic2ᚖgithubᚗcomᚋsubrotokumarᚋstellerlinkᚑbackendᚋmodelᚐRelic(ctx context.Context, sel ast.SelectionSet, v *model.Relic) graphql.Marshaler {
