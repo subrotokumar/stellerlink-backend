@@ -93,15 +93,15 @@ type Images struct {
 type LightCone struct {
 	ID                 int                              `json:"id"`
 	Concepts           string                           `json:"concepts"`
-	Rarity             int                              `json:"rarity"`
-	Path               Path                             `json:"path"`
-	Description        string                           `json:"description"`
-	SkillName          string                           `json:"skill_name"`
-	Skill              string                           `json:"skill"`
-	Story              string                           `json:"story"`
-	AscensionMaterials []*AscensionMaterialWithQuantity `json:"ascensionMaterials"`
 	Icon               string                           `json:"icon"`
 	LargeIcon          string                           `json:"largeIcon"`
+	Rarity             int                              `json:"rarity"`
+	Path               Path                             `json:"path"`
+	Skill              string                           `json:"skill"`
+	SkillName          string                           `json:"skillName"`
+	Description        string                           `json:"description"`
+	Story              string                           `json:"story"`
+	AscensionMaterials []*AscensionMaterialWithQuantity `json:"ascensionMaterials"`
 }
 
 type Material struct {

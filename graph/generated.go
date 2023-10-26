@@ -458,7 +458,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.LightCone.Skill(childComplexity), true
 
-	case "LightCone.skill_name":
+	case "LightCone.skillName":
 		if e.complexity.LightCone.SkillName == nil {
 			break
 		}
@@ -2439,6 +2439,94 @@ func (ec *executionContext) fieldContext_LightCone_concepts(ctx context.Context,
 	return fc, nil
 }
 
+func (ec *executionContext) _LightCone_icon(ctx context.Context, field graphql.CollectedField, obj *model.LightCone) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LightCone_icon(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Icon, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_LightCone_icon(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "LightCone",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _LightCone_largeIcon(ctx context.Context, field graphql.CollectedField, obj *model.LightCone) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LightCone_largeIcon(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.LargeIcon, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_LightCone_largeIcon(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "LightCone",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _LightCone_rarity(ctx context.Context, field graphql.CollectedField, obj *model.LightCone) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_LightCone_rarity(ctx, field)
 	if err != nil {
@@ -2527,94 +2615,6 @@ func (ec *executionContext) fieldContext_LightCone_path(ctx context.Context, fie
 	return fc, nil
 }
 
-func (ec *executionContext) _LightCone_description(ctx context.Context, field graphql.CollectedField, obj *model.LightCone) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_LightCone_description(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Description, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_LightCone_description(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "LightCone",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _LightCone_skill_name(ctx context.Context, field graphql.CollectedField, obj *model.LightCone) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_LightCone_skill_name(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.SkillName, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_LightCone_skill_name(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "LightCone",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
 func (ec *executionContext) _LightCone_skill(ctx context.Context, field graphql.CollectedField, obj *model.LightCone) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_LightCone_skill(ctx, field)
 	if err != nil {
@@ -2647,6 +2647,94 @@ func (ec *executionContext) _LightCone_skill(ctx context.Context, field graphql.
 }
 
 func (ec *executionContext) fieldContext_LightCone_skill(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "LightCone",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _LightCone_skillName(ctx context.Context, field graphql.CollectedField, obj *model.LightCone) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LightCone_skillName(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.SkillName, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_LightCone_skillName(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "LightCone",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _LightCone_description(ctx context.Context, field graphql.CollectedField, obj *model.LightCone) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_LightCone_description(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Description, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_LightCone_description(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "LightCone",
 		Field:      field,
@@ -2748,94 +2836,6 @@ func (ec *executionContext) fieldContext_LightCone_ascensionMaterials(ctx contex
 				return ec.fieldContext_AscensionMaterialWithQuantity_quantity(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type AscensionMaterialWithQuantity", field.Name)
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _LightCone_icon(ctx context.Context, field graphql.CollectedField, obj *model.LightCone) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_LightCone_icon(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Icon, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_LightCone_icon(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "LightCone",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _LightCone_largeIcon(ctx context.Context, field graphql.CollectedField, obj *model.LightCone) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_LightCone_largeIcon(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.LargeIcon, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_LightCone_largeIcon(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "LightCone",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
 		},
 	}
 	return fc, nil
@@ -3506,24 +3506,24 @@ func (ec *executionContext) fieldContext_Query_lightCone(ctx context.Context, fi
 				return ec.fieldContext_LightCone_id(ctx, field)
 			case "concepts":
 				return ec.fieldContext_LightCone_concepts(ctx, field)
-			case "rarity":
-				return ec.fieldContext_LightCone_rarity(ctx, field)
-			case "path":
-				return ec.fieldContext_LightCone_path(ctx, field)
-			case "description":
-				return ec.fieldContext_LightCone_description(ctx, field)
-			case "skill_name":
-				return ec.fieldContext_LightCone_skill_name(ctx, field)
-			case "skill":
-				return ec.fieldContext_LightCone_skill(ctx, field)
-			case "story":
-				return ec.fieldContext_LightCone_story(ctx, field)
-			case "ascensionMaterials":
-				return ec.fieldContext_LightCone_ascensionMaterials(ctx, field)
 			case "icon":
 				return ec.fieldContext_LightCone_icon(ctx, field)
 			case "largeIcon":
 				return ec.fieldContext_LightCone_largeIcon(ctx, field)
+			case "rarity":
+				return ec.fieldContext_LightCone_rarity(ctx, field)
+			case "path":
+				return ec.fieldContext_LightCone_path(ctx, field)
+			case "skill":
+				return ec.fieldContext_LightCone_skill(ctx, field)
+			case "skillName":
+				return ec.fieldContext_LightCone_skillName(ctx, field)
+			case "description":
+				return ec.fieldContext_LightCone_description(ctx, field)
+			case "story":
+				return ec.fieldContext_LightCone_story(ctx, field)
+			case "ascensionMaterials":
+				return ec.fieldContext_LightCone_ascensionMaterials(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type LightCone", field.Name)
 		},
@@ -3585,24 +3585,24 @@ func (ec *executionContext) fieldContext_Query_lightCones(ctx context.Context, f
 				return ec.fieldContext_LightCone_id(ctx, field)
 			case "concepts":
 				return ec.fieldContext_LightCone_concepts(ctx, field)
-			case "rarity":
-				return ec.fieldContext_LightCone_rarity(ctx, field)
-			case "path":
-				return ec.fieldContext_LightCone_path(ctx, field)
-			case "description":
-				return ec.fieldContext_LightCone_description(ctx, field)
-			case "skill_name":
-				return ec.fieldContext_LightCone_skill_name(ctx, field)
-			case "skill":
-				return ec.fieldContext_LightCone_skill(ctx, field)
-			case "story":
-				return ec.fieldContext_LightCone_story(ctx, field)
-			case "ascensionMaterials":
-				return ec.fieldContext_LightCone_ascensionMaterials(ctx, field)
 			case "icon":
 				return ec.fieldContext_LightCone_icon(ctx, field)
 			case "largeIcon":
 				return ec.fieldContext_LightCone_largeIcon(ctx, field)
+			case "rarity":
+				return ec.fieldContext_LightCone_rarity(ctx, field)
+			case "path":
+				return ec.fieldContext_LightCone_path(ctx, field)
+			case "skill":
+				return ec.fieldContext_LightCone_skill(ctx, field)
+			case "skillName":
+				return ec.fieldContext_LightCone_skillName(ctx, field)
+			case "description":
+				return ec.fieldContext_LightCone_description(ctx, field)
+			case "story":
+				return ec.fieldContext_LightCone_story(ctx, field)
+			case "ascensionMaterials":
+				return ec.fieldContext_LightCone_ascensionMaterials(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type LightCone", field.Name)
 		},
@@ -7523,6 +7523,16 @@ func (ec *executionContext) _LightCone(ctx context.Context, sel ast.SelectionSet
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
+		case "icon":
+			out.Values[i] = ec._LightCone_icon(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "largeIcon":
+			out.Values[i] = ec._LightCone_largeIcon(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
 		case "rarity":
 			out.Values[i] = ec._LightCone_rarity(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
@@ -7533,18 +7543,18 @@ func (ec *executionContext) _LightCone(ctx context.Context, sel ast.SelectionSet
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
-		case "description":
-			out.Values[i] = ec._LightCone_description(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "skill_name":
-			out.Values[i] = ec._LightCone_skill_name(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
 		case "skill":
 			out.Values[i] = ec._LightCone_skill(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "skillName":
+			out.Values[i] = ec._LightCone_skillName(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "description":
+			out.Values[i] = ec._LightCone_description(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
@@ -7555,16 +7565,6 @@ func (ec *executionContext) _LightCone(ctx context.Context, sel ast.SelectionSet
 			}
 		case "ascensionMaterials":
 			out.Values[i] = ec._LightCone_ascensionMaterials(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "icon":
-			out.Values[i] = ec._LightCone_icon(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "largeIcon":
-			out.Values[i] = ec._LightCone_largeIcon(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}

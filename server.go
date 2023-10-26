@@ -32,7 +32,7 @@ func playgroundHandler() gin.HandlerFunc {
 
 func main() {
 	port := os.Getenv("PORT")
-	release := os.Getenv("RELEASE") == "true"
+	release := os.Getenv("GO_ENV") == "production"
 	if port == "" {
 		port = "8080"
 	}

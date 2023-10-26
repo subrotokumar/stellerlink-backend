@@ -19,7 +19,7 @@ var CharacterCollections string = "characters"
 var lightConeCollection string = "lightcones"
 
 func Connect() *DB {
-	connectString := os.Getenv("ConnectionString")
+	connectString := os.Getenv("DB_URL")
 
 	clientOptions := options.Client().ApplyURI(connectString)
 
