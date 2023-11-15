@@ -39,11 +39,10 @@ func main() {
 
 	app := gin.Default()
 	app.POST("/graphql", graphqlHandler()) // GraphQL handler
-	if !release {
+	if release {
 		app.GET("/", playgroundHandler()) // Graphql Playground
 	}
-	if release {
-		app.Use(middlewareAuth())
+	if !release {
 		app.StaticFS("/images", http.Dir("assets/images")) // Static
 	}
 
